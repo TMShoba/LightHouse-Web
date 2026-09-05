@@ -86,7 +86,53 @@
     transition:background 0.2s ease;
   }
   .nav-cta:hover{background:#101c28;}
-  .nav-toggle{display:none;}
+
+  header.is-scrolled{
+    box-shadow:0 1px 0 var(--line), 0 12px 24px -18px rgba(27,42,58,0.35);
+  }
+  header.is-scrolled .nav{padding-top:14px; padding-bottom:14px;}
+  .nav{transition:padding 0.25s ease;}
+
+  .nav-links a.is-active{
+    color:var(--navy); border-color:var(--amber);
+  }
+
+  .nav-toggle{
+    display:none; width:36px; height:32px; border:none; background:none; cursor:pointer;
+    position:relative; padding:0;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:""; position:absolute; left:5px; right:5px; height:2px; background:var(--navy);
+    transition:transform 0.25s ease, opacity 0.25s ease, top 0.25s ease;
+  }
+  .nav-toggle span{top:15px;}
+  .nav-toggle span::before{top:-8px;}
+  .nav-toggle span::after{top:8px;}
+  .nav-toggle[aria-expanded="true"] span{background:transparent;}
+  .nav-toggle[aria-expanded="true"] span::before{top:0; transform:rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] span::after{top:0; transform:rotate(-45deg);}
+
+  .mobile-menu{
+    max-height:0; overflow:hidden; transition:max-height 0.3s ease;
+    border-top:1px solid transparent;
+  }
+  .mobile-menu.is-open{max-height:320px; border-top-color:var(--line);}
+  .mobile-menu ul{list-style:none; margin:0; padding:8px 32px 20px; display:flex; flex-direction:column; gap:4px;}
+  .mobile-menu a{
+    display:block; padding:12px 0; text-decoration:none; color:var(--navy); font-weight:500;
+    border-bottom:1px solid var(--line); font-size:1rem;
+  }
+  .mobile-menu .nav-cta{display:inline-block; margin-top:10px;}
+
+  /* ---------- scroll reveal ---------- */
+  .reveal{
+    opacity:0; transform:translateY(18px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.is-visible{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
 
   /* ---------- hero ---------- */
   .hero{
@@ -226,16 +272,70 @@
   /* ---------- testimonials ---------- */
   .testimonials{background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
   .testimonial-grid{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line);
-    border:1px solid var(--line); border-radius:10px; overflow:hidden;
+    position:relative; border:1px solid var(--line); border-radius:10px; overflow:hidden;
+    background:#fff; min-height:200px; max-width:720px; margin:0 auto;
   }
-  .testimonial{background:#fff; padding:36px 32px;}
+  .testimonial{
+    background:#fff; padding:40px 44px; position:absolute; inset:0;
+    opacity:0; transform:translateX(12px); transition:opacity 0.4s ease, transform 0.4s ease;
+    pointer-events:none;
+  }
+  .testimonial.is-shown{opacity:1; transform:translateX(0); position:relative; pointer-events:auto;}
   .testimonial p.quote{
     font-family:'Fraunces',serif; font-size:1.15rem; color:var(--navy); line-height:1.5;
   }
   .testimonial .attrib{margin-top:20px; display:flex; flex-direction:column; gap:2px;}
   .testimonial .attrib .name{font-weight:600; font-size:0.94rem;}
   .testimonial .attrib .role{font-size:0.86rem; color:var(--ink-soft);}
+
+  /* ---------- estimator ---------- */
+  .estimator{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:0;
+    border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff;
+  }
+  .estimator-controls{padding:36px 36px;}
+  .estimator-field{margin-bottom:28px;}
+  .estimator-field:last-child{margin-bottom:0;}
+  .estimator-label{
+    display:block; font-weight:600; color:var(--navy); font-size:0.95rem; margin-bottom:12px;
+  }
+  .tier-radios{display:flex; gap:10px; flex-wrap:wrap;}
+  .tier-radios input{position:absolute; opacity:0; pointer-events:none;}
+  .tier-radios label{
+    border:1px solid var(--line); border-radius:var(--radius); padding:10px 16px;
+    font-size:0.9rem; cursor:pointer; transition:border-color 0.2s ease, background 0.2s ease; color:var(--ink-soft);
+  }
+  .tier-radios input:checked + label{
+    border-color:var(--amber); background:rgba(217,142,62,0.1); color:var(--navy); font-weight:600;
+  }
+  .addon-list{display:flex; flex-direction:column; gap:12px;}
+  .addon-row{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:12px 14px; border:1px solid var(--line); border-radius:var(--radius); cursor:pointer;
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .addon-row:has(input:checked){border-color:var(--teal); background:rgba(61,107,102,0.06);}
+  .addon-row input{accent-color:var(--teal); width:17px; height:17px; flex-shrink:0;}
+  .addon-name{font-size:0.92rem; color:var(--ink); font-weight:500; flex:1;}
+  .addon-price{font-size:0.85rem; color:var(--ink-soft); font-family:'Fraunces',serif;}
+  .estimator-summary{
+    background:var(--navy); color:var(--paper); padding:36px 36px; display:flex; flex-direction:column;
+  }
+  .estimator-summary .label{font-size:0.85rem; color:rgba(247,244,238,0.65); margin-bottom:8px;}
+  .estimator-total{
+    font-family:'Fraunces',serif; font-size:2.4rem; font-weight:500; color:var(--paper);
+    transition:color 0.2s ease;
+  }
+  .estimator-total.just-updated{color:var(--amber);}
+  .estimator-note{font-size:0.85rem; color:rgba(247,244,238,0.6); margin-top:8px;}
+  .estimator-breakdown{
+    margin-top:28px; padding-top:24px; border-top:1px solid var(--paper-line);
+    display:flex; flex-direction:column; gap:10px; flex:1;
+  }
+  .estimator-breakdown .row{
+    display:flex; justify-content:space-between; font-size:0.87rem; color:rgba(247,244,238,0.8);
+  }
+  .estimator-summary .btn-primary{margin-top:24px; text-align:center;}
 
   /* ---------- pricing footnote / faq ---------- */
   .faq{
@@ -264,6 +364,52 @@
   .final-cta h2{color:var(--paper); font-size:clamp(1.6rem,3vw,2.1rem); max-width:20ch;}
   .final-cta .btn-primary{white-space:nowrap;}
 
+  /* ---------- contact form ---------- */
+  .contact-form{
+    background:#fff; border-radius:14px; padding:44px 48px; display:grid;
+    grid-template-columns:1fr 1fr; gap:20px 24px; position:relative;
+  }
+  .form-field{display:flex; flex-direction:column; gap:8px;}
+  .form-field.full{grid-column:1/-1;}
+  .form-field label{font-size:0.88rem; font-weight:600; color:var(--navy);}
+  .form-field input, .form-field select, .form-field textarea{
+    border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px;
+    font-family:'Inter',sans-serif; font-size:0.95rem; color:var(--ink); background:var(--paper);
+    transition:border-color 0.2s ease;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{
+    outline:none; border-color:var(--teal);
+  }
+  .form-field textarea{resize:vertical; min-height:96px;}
+  .form-error{font-size:0.8rem; color:#B5462F; min-height:1em;}
+  .form-submit{
+    grid-column:1/-1; display:flex; align-items:center; gap:16px; margin-top:8px; flex-wrap:wrap;
+  }
+  .form-submit .btn-primary{border:none; cursor:pointer; font-family:inherit;}
+  .form-status{font-size:0.88rem; color:var(--ink-soft);}
+  .form-success{
+    grid-column:1/-1; display:none; align-items:center; gap:14px; padding:18px 20px;
+    background:rgba(61,107,102,0.08); border:1px solid var(--teal); border-radius:var(--radius);
+  }
+  .form-success.is-visible{display:flex;}
+  .form-success .check{
+    width:26px; height:26px; border-radius:50%; background:var(--teal); color:#fff; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:0.9rem;
+  }
+  @media (max-width:640px){
+    .contact-form{grid-template-columns:1fr; padding:32px 24px;}
+  }
+
+  /* ---------- testimonial carousel ---------- */
+  .testimonial-dots{
+    display:flex; gap:8px; justify-content:center; margin-top:24px;
+  }
+  .testimonial-dots button{
+    width:8px; height:8px; border-radius:50%; border:none; background:var(--line); cursor:pointer; padding:0;
+    transition:background 0.2s ease, width 0.2s ease;
+  }
+  .testimonial-dots button.is-active{background:var(--amber); width:22px; border-radius:4px;}
+
   footer{
     padding:56px 32px 40px; border-top:1px solid var(--line);
   }
@@ -288,17 +434,19 @@
     .steps{grid-template-columns:1fr 1fr; row-gap:32px;}
     .step{border-right:none; border-bottom:1px solid var(--paper-line); padding-bottom:24px;}
     .work-grid{grid-template-columns:1fr 1fr;}
-    .testimonial-grid{grid-template-columns:1fr;}
     .faq{grid-template-columns:1fr;}
     .footer-grid{grid-template-columns:1fr 1fr;}
     .final-cta{padding:44px 32px;}
+    .estimator{grid-template-columns:1fr;}
   }
   @media (max-width:640px){
-    .nav-links{display:none;}
+    .nav-links, .nav-cta{display:none;}
+    .nav-toggle{display:block;}
     .work-grid{grid-template-columns:1fr;}
     .footer-grid{grid-template-columns:1fr;}
     section{padding:64px 20px;}
     .hero{padding:40px 20px 56px;}
+    .estimator-controls, .estimator-summary{padding:28px 24px;}
   }
 </style>
 </head>
@@ -316,13 +464,26 @@
     </a>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
+      <li><a href="#estimate">Estimate</a></li>
       <li><a href="#process">Process</a></li>
       <li><a href="#work">Work</a></li>
-      <li><a href="#pricing">Pricing</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Get a quote</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle menu">
+      <span></span>
+    </button>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#estimate">Estimate</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact" class="nav-cta">Get a quote</a></li>
+    </ul>
+  </div>
 </header>
 
 <main id="top">
@@ -333,7 +494,7 @@
       <p class="lede">We plan, design, and build sites for small and growing businesses — the kind that load fast, rank on Google, and turn visitors into customers. No templates dressed up as custom work.</p>
       <div class="cta-row">
         <a href="#contact" class="btn-primary">Start your project</a>
-        <a href="#work" class="btn-ghost">See recent work</a>
+    
       </div>
     </div>
     <div class="hero-figure">
@@ -351,9 +512,9 @@
 
   <div class="trust">
     <div class="wrap">
-      <span><strong>40+</strong> businesses launched since 2022</span>
+      <span><strong class="counter" data-target="40" data-suffix="+">0</strong> businesses launched since 2022</span>
       <span><strong>2–4 week</strong> average turnaround</span>
-      <span><strong>98%</strong> client satisfaction on delivery surveys</span>
+      <span><strong class="counter" data-target="98" data-suffix="%">0</strong> client satisfaction on delivery surveys</span>
     </div>
   </div>
 
@@ -363,7 +524,7 @@
       <p>Pick the level of build that matches where your business is right now. Every tier includes mobile-friendly design, basic SEO setup, and a working handover — nothing is left half-finished.</p>
     </div>
     <div class="tiers">
-      <div class="tier">
+      <div class="tier reveal">
         <h3>Starter Site</h3>
         <p class="tier-price">R8,500 <span>/ one-time</span></p>
         <p>For a solo business or new venture that needs a credible presence fast.</p>
@@ -376,7 +537,7 @@
         </ul>
         <a href="#contact" class="btn-outline">Choose Starter</a>
       </div>
-      <div class="tier featured">
+      <div class="tier featured reveal">
         <h3>Business Site</h3>
         <p class="tier-price">R18,900 <span>/ one-time</span></p>
         <p>Our most common build — for a business ready to sell and be found online.</p>
@@ -390,7 +551,7 @@
         </ul>
         <a href="#contact" class="btn-outline">Choose Business</a>
       </div>
-      <div class="tier">
+      <div class="tier reveal">
         <h3>Custom Build</h3>
         <p class="tier-price">From R35,000 <span>/ project</span></p>
         <p>For stores, booking platforms, or anything with real product logic behind it.</p>
@@ -406,93 +567,87 @@
     </div>
   </section>
 
+  <section id="estimate">
+    <div class="section-head">
+      <h2>Get a live estimate</h2>
+      <p>Pick a starting tier and any add-ons — the price updates as you go. This is a starting point for a conversation, not a final quote.</p>
+    </div>
+    <div class="estimator reveal">
+      <div class="estimator-controls">
+        <div class="estimator-field">
+          <span class="estimator-label">Which tier fits?</span>
+          <div class="tier-radios" id="tierRadios">
+            <input type="radio" name="tier" id="tierStarter" value="8500" data-name="Starter Site" checked>
+            <label for="tierStarter">Starter — R8,500</label>
+            <input type="radio" name="tier" id="tierBusiness" value="18900" data-name="Business Site">
+            <label for="tierBusiness">Business — R18,900</label>
+            <input type="radio" name="tier" id="tierCustom" value="35000" data-name="Custom Build">
+            <label for="tierCustom">Custom — from R35,000</label>
+          </div>
+        </div>
+        <div class="estimator-field">
+          <span class="estimator-label">Add-ons</span>
+          <div class="addon-list" id="addonList">
+            <label class="addon-row">
+              <span class="addon-name">Online store / payments</span>
+              <span class="addon-price">+ R6,500</span>
+              <input type="checkbox" value="6500" data-name="Online store / payments">
+            </label>
+            <label class="addon-row">
+              <span class="addon-name">Copywriting for all pages</span>
+              <span class="addon-price">+ R3,200</span>
+              <input type="checkbox" value="3200" data-name="Copywriting">
+            </label>
+            <label class="addon-row">
+              <span class="addon-name">Logo &amp; brand basics</span>
+              <span class="addon-price">+ R2,800</span>
+              <input type="checkbox" value="2800" data-name="Logo & brand basics">
+            </label>
+            <label class="addon-row">
+              <span class="addon-name">Monthly care plan (first year)</span>
+              <span class="addon-price">+ R4,800</span>
+              <input type="checkbox" value="4800" data-name="Monthly care plan">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="estimator-summary">
+        <span class="label">Estimated total</span>
+        <span class="estimator-total" id="estimatorTotal">R8,500</span>
+        <p class="estimator-note">One-time build cost, excludes hosting &amp; domain fees.</p>
+        <div class="estimator-breakdown" id="estimatorBreakdown">
+          <div class="row"><span>Starter Site</span><span>R8,500</span></div>
+        </div>
+        <a href="#contact" class="btn-primary" id="estimatorCta">Send this estimate</a>
+      </div>
+    </div>
+  </section>
+
   <section id="process" class="process-alt">
     <div class="section-head">
       <h2>How a project actually runs</h2>
       <p>Four stages, always in this order. You'll know what's happening and what we need from you at each one.</p>
     </div>
     <div class="steps">
-      <div class="step">
+      <div class="step reveal">
         <span class="step-num">01</span>
         <h3>Discover</h3>
         <p>A working session to map your goals, your customers, and what "done" looks like — before any design starts.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <span class="step-num">02</span>
         <h3>Design</h3>
         <p>We build a full design of your homepage and one inner page first, so you can react before we build the rest.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <span class="step-num">03</span>
         <h3>Build</h3>
         <p>Development happens in the open — you get a staging link to click through as pages come together.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <span class="step-num">04</span>
         <h3>Launch</h3>
         <p>We handle DNS, hosting, and a final walkthrough, then hand over the keys — with a plain-English guide.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="work">
-    <div class="section-head">
-      <h2>Recent work</h2>
-      <p>A small sample of what we've shipped. Every project below went from first call to live site in under six weeks.</p>
-    </div>
-    <div class="work-grid">
-      <div class="work-item">
-        <div class="work-thumb">
-          <svg viewBox="0 0 400 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-            <rect width="400" height="300" fill="#EFE8DA"/>
-            <rect x="0" y="0" width="400" height="64" fill="#1B2A3A"/>
-            <rect x="24" y="24" width="90" height="16" rx="2" fill="#D98E3E"/>
-            <rect x="30" y="100" width="180" height="20" rx="2" fill="#1B2A3A"/>
-            <rect x="30" y="132" width="240" height="10" rx="2" fill="#8A9099"/>
-            <rect x="30" y="150" width="200" height="10" rx="2" fill="#8A9099"/>
-            <rect x="30" y="190" width="120" height="36" rx="4" fill="#3D6B66"/>
-            <rect x="250" y="90" width="120" height="150" rx="4" fill="#D9CFC0"/>
-          </svg>
-        </div>
-        <div class="work-body">
-          <span class="kicker">Restaurant</span>
-          <h3>Marabou Bistro</h3>
-          <p>Menu, table bookings, and a photo-led homepage that brings in evening reservations.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="work-thumb">
-          <svg viewBox="0 0 400 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-            <rect width="400" height="300" fill="#E4EAE8"/>
-            <rect x="0" y="0" width="400" height="50" fill="#3D6B66"/>
-            <circle cx="200" cy="150" r="70" fill="#1B2A3A" fill-opacity="0.08"/>
-            <rect x="120" y="120" width="160" height="18" rx="3" fill="#1B2A3A"/>
-            <rect x="120" y="148" width="120" height="10" rx="2" fill="#8A9099"/>
-            <rect x="140" y="190" width="120" height="34" rx="17" fill="#D98E3E"/>
-          </svg>
-        </div>
-        <div class="work-body">
-          <span class="kicker">Professional services</span>
-          <h3>Halden &amp; Co. Attorneys</h3>
-          <p>A calm, credibility-first rebuild with practice-area pages and a clear intake form.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="work-thumb">
-          <svg viewBox="0 0 400 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-            <rect width="400" height="300" fill="#1B2A3A"/>
-            <rect x="30" y="40" width="150" height="14" rx="2" fill="#D98E3E"/>
-            <rect x="30" y="70" width="220" height="10" rx="2" fill="#C9CED4"/>
-            <rect x="30" y="120" width="110" height="110" rx="6" fill="#3D6B66"/>
-            <rect x="150" y="120" width="110" height="110" rx="6" fill="#2B3F52"/>
-            <rect x="270" y="120" width="100" height="110" rx="6" fill="#3D6B66"/>
-          </svg>
-        </div>
-        <div class="work-body">
-          <span class="kicker">Retail</span>
-          <h3>Foothill Outdoor Supply</h3>
-          <p>A small online store built on Custom Build, with local pickup and stock sync.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -501,8 +656,8 @@
     <div class="section-head">
       <h2>What clients say once the site is live</h2>
     </div>
-    <div class="testimonial-grid">
-      <div class="testimonial">
+    <div class="testimonial-grid" id="testimonialGrid" data-index="0">
+      <div class="testimonial is-shown">
         <p class="quote">They pushed back on a couple of ideas I had — kindly, but clearly — and the site is better for it. Bookings went up within the first month.</p>
         <div class="attrib">
           <span class="name">Naledi M.</span>
@@ -516,9 +671,16 @@
           <span class="role">Partner, Halden &amp; Co.</span>
         </div>
       </div>
+      <div class="testimonial">
+        <p class="quote">The price estimate on their site matched the final invoice almost exactly. No surprises, which is rare in this industry.</p>
+        <div class="attrib">
+          <span class="name">Priya K.</span>
+          <span class="role">Founder, Foothill Outdoor Supply</span>
+        </div>
+      </div>
     </div>
+    <div class="testimonial-dots" id="testimonialDots"></div>
   </section>
-
   <section id="pricing">
     <div class="section-head">
       <h2>What's included, always</h2>
@@ -571,11 +733,51 @@
     </div>
   </section>
 
-  <section id="contact" style="padding-top:0;">
-    <div class="final-cta">
-      <h2>Tell us about your business — we'll reply within one working day.</h2>
-      <a href="mailto:hello@lighthousewebco.com" class="btn-primary">hello@lighthousewebco.com</a>
+  <section id="contact">
+    <div class="section-head">
+      <h2>Tell us about your business</h2>
+      <p>Fill this in and we'll reply within one working day — or email lighthouseweb2026@outlook.com directly.</p> 
+  
     </div>
+    <form class="contact-form reveal" id="contactForm" novalidate>
+      <div class="form-field">
+        <label for="cf-name">Your name</label>
+        <input type="text" id="cf-name" name="name" required>
+        <span class="form-error" data-error-for="cf-name"></span>
+      </div>
+      <div class="form-field">
+        <label for="cf-email">Email</label>
+        <input type="email" id="cf-email" name="email" required>
+        <span class="form-error" data-error-for="cf-email"></span>
+      </div>
+      <div class="form-field full">
+        <label for="cf-business">Business name</label>
+        <input type="text" id="cf-business" name="business">
+        <span class="form-error" data-error-for="cf-business"></span>
+      </div>
+      <div class="form-field full">
+        <label for="cf-tier">What are you looking for?</label>
+        <select id="cf-tier" name="tier">
+          <option value="Starter Site">Starter Site</option>
+          <option value="Business Site">Business Site</option>
+          <option value="Custom Build">Custom Build</option>
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label for="cf-message">Tell us a bit about the project</label>
+        <textarea id="cf-message" name="message" required></textarea>
+        <span class="form-error" data-error-for="cf-message"></span>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <span class="check">✓</span>
+        <span>Thanks — your email app should have opened with everything filled in. Send it and we'll reply within one working day.</span>
+      </div>
+      <div class="form-submit">
+        <button type="submit" class="btn-primary">Send project details</button>
+        <span class="form-status" id="formStatus"></span>
+      </div>
+    </form>
   </section>
 
 </main>
@@ -612,8 +814,8 @@
     <div>
       <h4>Contact</h4>
       <ul>
-        <li><a href="mailto:hello@lighthousewebco.com">hello@lighthousewebco.com</a></li>
-        <li><a href="tel:+27110000000">+27 11 000 0000</a></li>
+        <li><a href="mailto:hello@lighthousewebco.com">lighthouseweb2026@outlook.com</a></li>
+        <li><a href="tel:+27736947042">+27736947042</a></li>
         <li><a href="#contact">Request a quote</a></li>
       </ul>
     </div>
@@ -624,5 +826,257 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- mobile nav toggle ---- */
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  if(navToggle && mobileMenu){
+    navToggle.addEventListener('click', function(){
+      var open = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!open));
+      mobileMenu.classList.toggle('is-open', !open);
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        navToggle.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('is-open');
+      });
+    });
+  }
+
+  /* ---- header scroll shadow ---- */
+  var header = document.querySelector('header');
+  var onScrollHeader = function(){
+    if(!header) return;
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+  };
+  document.addEventListener('scroll', onScrollHeader, {passive:true});
+  onScrollHeader();
+
+  /* ---- active nav link on scroll ---- */
+  var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  var sections = Array.prototype.map.call(navLinks, function(a){
+    return document.querySelector(a.getAttribute('href'));
+  }).filter(Boolean);
+
+  if('IntersectionObserver' in window && sections.length){
+    var navObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          var id = '#' + entry.target.id;
+          navLinks.forEach(function(a){
+            a.classList.toggle('is-active', a.getAttribute('href') === id);
+          });
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    sections.forEach(function(s){ navObserver.observe(s); });
+  }
+
+  /* ---- scroll reveal ---- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window && !reduceMotion){
+    var revealObserver = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(entry, i){
+        if(entry.isIntersecting){
+          setTimeout(function(){
+            entry.target.classList.add('is-visible');
+          }, i * 60);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    revealEls.forEach(function(el){ revealObserver.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---- animated stat counters ---- */
+  var counters = document.querySelectorAll('.counter');
+  function animateCounter(el){
+    var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+    var suffix = el.getAttribute('data-suffix') || '';
+    if(reduceMotion){ el.textContent = target + suffix; return; }
+    var start = null;
+    var duration = 1100;
+    function step(ts){
+      if(!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if(progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window && counters.length){
+    var counterObserver = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.6});
+    counters.forEach(function(c){ counterObserver.observe(c); });
+  } else {
+    counters.forEach(animateCounter);
+  }
+
+  /* ---- price estimator ---- */
+  var tierRadios = document.querySelectorAll('#tierRadios input[type="radio"]');
+  var addonInputs = document.querySelectorAll('#addonList input[type="checkbox"]');
+  var totalEl = document.getElementById('estimatorTotal');
+  var breakdownEl = document.getElementById('estimatorBreakdown');
+  var estimatorCta = document.getElementById('estimatorCta');
+
+  function formatRands(n){
+    return 'R' + n.toLocaleString('en-ZA');
+  }
+
+  function recalcEstimate(){
+    var checkedTier = document.querySelector('#tierRadios input:checked');
+    var tierValue = checkedTier ? parseInt(checkedTier.value, 10) : 0;
+    var tierName = checkedTier ? checkedTier.getAttribute('data-name') : '';
+    var rows = [{name:tierName, price:tierValue}];
+    var total = tierValue;
+
+    addonInputs.forEach(function(input){
+      if(input.checked){
+        var price = parseInt(input.value, 10) || 0;
+        total += price;
+        rows.push({name:input.getAttribute('data-name'), price:price});
+      }
+    });
+
+    if(totalEl){
+      totalEl.textContent = formatRands(total);
+      totalEl.classList.remove('just-updated');
+      void totalEl.offsetWidth;
+      totalEl.classList.add('just-updated');
+    }
+    if(breakdownEl){
+      breakdownEl.innerHTML = rows.map(function(r){
+        return '<div class="row"><span>' + r.name + '</span><span>' + formatRands(r.price) + '</span></div>';
+      }).join('');
+    }
+    if(estimatorCta){
+      estimatorCta.href = '#contact';
+    }
+    window.__lastEstimate = {tier: tierName, total: total, rows: rows};
+  }
+
+  tierRadios.forEach(function(r){ r.addEventListener('change', recalcEstimate); });
+  addonInputs.forEach(function(c){ c.addEventListener('change', recalcEstimate); });
+  if(tierRadios.length) recalcEstimate();
+
+  if(estimatorCta){
+    estimatorCta.addEventListener('click', function(){
+      var msgField = document.getElementById('cf-message');
+      var tierField = document.getElementById('cf-tier');
+      var est = window.__lastEstimate;
+      if(est && msgField && !msgField.value){
+        msgField.value = 'I got an estimate of ' + formatRands(est.total) + ' (' + est.tier + ' plus add-ons) and would like to discuss.';
+      }
+      if(est && tierField){
+        tierField.value = est.tier;
+      }
+    });
+  }
+
+  /* ---- testimonial carousel ---- */
+  var testimonialGrid = document.getElementById('testimonialGrid');
+  var dotsWrap = document.getElementById('testimonialDots');
+  if(testimonialGrid && dotsWrap){
+    var slides = Array.prototype.slice.call(testimonialGrid.querySelectorAll('.testimonial'));
+    var current = 0;
+    var timer = null;
+
+    slides.forEach(function(_, i){
+      var dot = document.createElement('button');
+      dot.setAttribute('aria-label', 'Show testimonial ' + (i + 1));
+      if(i === 0) dot.classList.add('is-active');
+      dot.addEventListener('click', function(){ goTo(i); resetTimer(); });
+      dotsWrap.appendChild(dot);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    function goTo(index){
+      slides[current].classList.remove('is-shown');
+      dots[current].classList.remove('is-active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('is-shown');
+      dots[current].classList.add('is-active');
+    }
+    function resetTimer(){
+      if(timer) clearInterval(timer);
+      if(!reduceMotion){
+        timer = setInterval(function(){ goTo(current + 1); }, 6000);
+      }
+    }
+    resetTimer();
+  }
+
+  /* ---- contact form ---- */
+  var form = document.getElementById('contactForm');
+  if(form){
+    var successBox = document.getElementById('formSuccess');
+    var statusEl = document.getElementById('formStatus');
+
+    function setError(fieldId, message){
+      var span = form.querySelector('[data-error-for="' + fieldId + '"]');
+      if(span) span.textContent = message || '';
+    }
+
+    function validate(){
+      var valid = true;
+      var name = document.getElementById('cf-name');
+      var email = document.getElementById('cf-email');
+      var business = document.getElementById('cf-business');
+      var message = document.getElementById('cf-message');
+
+      setError('cf-name', ''); setError('cf-email', ''); setError('cf-business', ''); setError('cf-message', '');
+
+      if(!name.value.trim()){ setError('cf-name', 'Please add your name.'); valid = false; }
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailPattern.test(email.value.trim())){ setError('cf-email', 'Please add a valid email.'); valid = false; }
+      if(!message.value.trim()){ setError('cf-message', 'Tell us a little about the project.'); valid = false; }
+
+      return valid;
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!validate()){
+        if(statusEl) statusEl.textContent = 'Please fix the highlighted fields.';
+        return;
+      }
+      var name = document.getElementById('cf-name').value.trim();
+      var email = document.getElementById('cf-email').value.trim();
+      var business = document.getElementById('cf-business').value.trim();
+      var tier = document.getElementById('cf-tier').value;
+      var message = document.getElementById('cf-message').value.trim();
+
+      var subject = encodeURIComponent('Project enquiry: ' + (business || name));
+      var bodyLines = [
+        'Name: ' + name,
+        'Business: ' + (business || '—'),
+        'Interested in: ' + tier,
+        '',
+        message
+      ];
+      var body = encodeURIComponent(bodyLines.join('\n'));
+      window.location.href = 'mailto:hello@lighthousewebco.com?subject=' + subject + '&body=' + body;
+
+      if(successBox) successBox.classList.add('is-visible');
+      if(statusEl) statusEl.textContent = '';
+      form.reset();
+    });
+  }
+})();
+</script>
 </body>
 </html>
