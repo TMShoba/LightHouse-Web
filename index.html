@@ -429,7 +429,7 @@
   /* ---------- responsive ---------- */
   @media (max-width:920px){
     .hero{grid-template-columns:1fr; padding-top:48px;}
-    .hero-figure{order:-1; max-width:420px; margin:0 auto;}
+    .hero-figure{order:-1; width:100%; max-width:420px; margin:0 auto;}
     .tiers{grid-template-columns:1fr;}
     .steps{grid-template-columns:1fr 1fr; row-gap:32px;}
     .step{border-right:none; border-bottom:1px solid var(--paper-line); padding-bottom:24px;}
@@ -488,7 +488,7 @@
 
 <main id="top">
 
-  <section class="hero" style="padding-top:96px;">
+  <section class="hero">
     <div>
       <h1>Websites that earn their keep, not just their design.</h1>
       <p class="lede">We plan, design, and build sites for small and growing businesses — the kind that load fast, rank on Google, and turn visitors into customers. No templates dressed up as custom work.</p>
@@ -736,7 +736,7 @@
   <section id="contact">
     <div class="section-head">
       <h2>Tell us about your business</h2>
-      <p>Fill this in and we'll reply within one working day — or email hello@lighthousewebco.com directly.</p>
+      <p>Fill this in and we'll reply within one working day — or email lighthouseweb2026@outlook.com directly.</p>
     </div>
     <form class="contact-form reveal" id="contactForm" novalidate>
       <input type="hidden" name="_subject" value="New project enquiry — Lighthouse Web Co.">
@@ -771,7 +771,7 @@
       </div>
       <div class="form-success" id="formSuccess">
         <span class="check">✓</span>
-        <span>Thanks — we've received your message and will reply within one working day.</span>
+        <span id="formSuccessText">Thanks — we've received your message and will reply within one working day.</span>
       </div>
       <div class="form-submit">
         <button type="submit" class="btn-primary">Send project details</button>
@@ -814,8 +814,8 @@
     <div>
       <h4>Contact</h4>
       <ul>
-        <li><a href="mailto:hello@lighthousewebco.com">hello@lighthousewebco.com</a></li>
-        <li><a href="tel:+27736947042">+27736947042</a></li>
+        <li><a href="mailto:hello@lighthousewebco.com">lighthouseweb2026@outlook.com</a></li>
+        <li><a href="tel:+27736947042">+27 73 694 7042</a></li>
         <li><a href="#contact">Request a quote</a></li>
       </ul>
     </div>
@@ -1029,6 +1029,7 @@
   var form = document.getElementById('contactForm');
   if(form){
     var successBox = document.getElementById('formSuccess');
+    var successText = document.getElementById('formSuccessText');
     var statusEl = document.getElementById('formStatus');
     var submitBtn = form.querySelector('button[type="submit"]');
 
@@ -1083,6 +1084,7 @@
 
       if(!endpointReady){
         fallbackToMailto(name, business, tier, message);
+        if(successText) successText.textContent = "Thanks — your email app should have opened with everything filled in. Send it and we'll reply within one working day.";
         if(successBox) successBox.classList.add('is-visible');
         if(statusEl) statusEl.textContent = '';
         form.reset();
@@ -1098,16 +1100,21 @@
         body: new FormData(form)
       }).then(function(response){
         if(response.ok){
+          if(successText) successText.textContent = "Thanks — we've received your message and will reply within one working day.";
           if(successBox) successBox.classList.add('is-visible');
           if(statusEl) statusEl.textContent = '';
           form.reset();
         } else {
           if(statusEl) statusEl.textContent = 'Something went wrong — opening an email instead.';
           fallbackToMailto(name, business, tier, message);
+          if(successText) successText.textContent = "Thanks — your email app should have opened with everything filled in. Send it and we'll reply within one working day.";
+          if(successBox) successBox.classList.add('is-visible');
         }
       }).catch(function(){
         if(statusEl) statusEl.textContent = 'Connection issue — opening an email instead.';
         fallbackToMailto(name, business, tier, message);
+        if(successText) successText.textContent = "Thanks — your email app should have opened with everything filled in. Send it and we'll reply within one working day.";
+        if(successBox) successBox.classList.add('is-visible');
       }).finally(function(){
         if(submitBtn){ submitBtn.disabled = false; }
       });
