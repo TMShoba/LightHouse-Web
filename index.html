@@ -736,10 +736,10 @@
   <section id="contact">
     <div class="section-head">
       <h2>Tell us about your business</h2>
-      <p>Fill this in and we'll reply within one working day — or email lighthouseweb2026@outlook.com directly.</p> 
-  
+      <p>Fill this in and we'll reply within one working day — or email hello@lighthousewebco.com directly.</p>
     </div>
     <form class="contact-form reveal" id="contactForm" novalidate>
+      <input type="hidden" name="_subject" value="New project enquiry — Lighthouse Web Co.">
       <div class="form-field">
         <label for="cf-name">Your name</label>
         <input type="text" id="cf-name" name="name" required>
@@ -814,7 +814,7 @@
     <div>
       <h4>Contact</h4>
       <ul>
-        <li><a href="mailto:hello@lighthousewebco.com">lighthouseweb2026@outlook.com</a></li>
+        <li><a href="mailto:hello@lighthousewebco.com">hello@lighthousewebco.com</a></li>
         <li><a href="tel:+27736947042">+27736947042</a></li>
         <li><a href="#contact">Request a quote</a></li>
       </ul>
@@ -1021,10 +1021,16 @@
   }
 
   /* ---- contact form ---- */
+  // Paste your Formspree endpoint below once you've created it, e.g.
+  // 'https://formspree.io/f/abcd1234'. Leave as-is and the form will
+  // fall back to opening an email draft instead.
+  var FORMSPREE_ENDPOINT = 'https://formspree.io/f/xyeypvan';
+
   var form = document.getElementById('contactForm');
   if(form){
     var successBox = document.getElementById('formSuccess');
     var statusEl = document.getElementById('formStatus');
+    var submitBtn = form.querySelector('button[type="submit"]');
 
     function setError(fieldId, message){
       var span = form.querySelector('[data-error-for="' + fieldId + '"]');
@@ -1035,7 +1041,6 @@
       var valid = true;
       var name = document.getElementById('cf-name');
       var email = document.getElementById('cf-email');
-      var business = document.getElementById('cf-business');
       var message = document.getElementById('cf-message');
 
       setError('cf-name', ''); setError('cf-email', ''); setError('cf-business', ''); setError('cf-message', '');
@@ -1048,18 +1053,7 @@
       return valid;
     }
 
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      if(!validate()){
-        if(statusEl) statusEl.textContent = 'Please fix the highlighted fields.';
-        return;
-      }
-      var name = document.getElementById('cf-name').value.trim();
-      var email = document.getElementById('cf-email').value.trim();
-      var business = document.getElementById('cf-business').value.trim();
-      var tier = document.getElementById('cf-tier').value;
-      var message = document.getElementById('cf-message').value.trim();
-
+    function fallbackToMailto(name, business, tier, message){
       var subject = encodeURIComponent('Project enquiry: ' + (business || name));
       var bodyLines = [
         'Name: ' + name,
@@ -1070,10 +1064,53 @@
       ];
       var body = encodeURIComponent(bodyLines.join('\n'));
       window.location.href = 'mailto:hello@lighthousewebco.com?subject=' + subject + '&body=' + body;
+    }
 
-      if(successBox) successBox.classList.add('is-visible');
-      if(statusEl) statusEl.textContent = '';
-      form.reset();
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!validate()){
+        if(statusEl) statusEl.textContent = 'Please fix the highlighted fields.';
+        return;
+      }
+
+      var name = document.getElementById('cf-name').value.trim();
+      var email = document.getElementById('cf-email').value.trim();
+      var business = document.getElementById('cf-business').value.trim();
+      var tier = document.getElementById('cf-tier').value;
+      var message = document.getElementById('cf-message').value.trim();
+
+      var endpointReady = FORMSPREE_ENDPOINT.indexOf('YOUR_FORM_ID') === -1;
+
+      if(!endpointReady){
+        fallbackToMailto(name, business, tier, message);
+        if(successBox) successBox.classList.add('is-visible');
+        if(statusEl) statusEl.textContent = '';
+        form.reset();
+        return;
+      }
+
+      if(submitBtn){ submitBtn.disabled = true; }
+      if(statusEl) statusEl.textContent = 'Sending…';
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      }).then(function(response){
+        if(response.ok){
+          if(successBox) successBox.classList.add('is-visible');
+          if(statusEl) statusEl.textContent = '';
+          form.reset();
+        } else {
+          if(statusEl) statusEl.textContent = 'Something went wrong — opening an email instead.';
+          fallbackToMailto(name, business, tier, message);
+        }
+      }).catch(function(){
+        if(statusEl) statusEl.textContent = 'Connection issue — opening an email instead.';
+        fallbackToMailto(name, business, tier, message);
+      }).finally(function(){
+        if(submitBtn){ submitBtn.disabled = false; }
+      });
     });
   }
 })();
