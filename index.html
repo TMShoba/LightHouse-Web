@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lighthouse Web Co. — Websites for growing businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A3A;
+    --paper:#F7F4EE;
+    --amber:#D98E3E;
+    --teal:#3D6B66;
+    --ink:#22262B;
+    --ink-soft:#5B6570;
+    --line:rgba(27,42,58,0.12);
+    --paper-line:rgba(247,244,238,0.16);
+    --radius:6px;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    line-height:1.12;
+    margin:0;
+    color:var(--navy);
+  }
+  p{margin:0;}
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  img,svg{display:block;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,244,238,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px;
+    max-width:var(--maxw); margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Fraunces',serif; font-size:1.15rem; font-weight:600; color:var(--navy);
+    text-decoration:none;
+  }
+  .brand-mark{width:22px; height:22px; flex-shrink:0;}
+  .nav-links{
+    display:flex; gap:36px; list-style:none; margin:0; padding:0;
+  }
+  .nav-links a{
+    text-decoration:none; font-size:0.95rem; color:var(--ink); font-weight:500;
+    padding-bottom:3px; border-bottom:1px solid transparent;
+    transition:border-color 0.2s ease;
+  }
+  .nav-links a:hover{border-color:var(--amber);}
+  .nav-cta{
+    display:inline-block; background:var(--navy); color:var(--paper) !important;
+    padding:10px 20px; border-radius:var(--radius); font-size:0.9rem; font-weight:500;
+    text-decoration:none; border:1px solid var(--navy);
+    transition:background 0.2s ease;
+  }
+  .nav-cta:hover{background:#101c28;}
+  .nav-toggle{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:96px 32px 80px;
+    max-width:var(--maxw); margin:0 auto;
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 4.2vw, 3.6rem);
+    letter-spacing:-0.01em;
+    max-width:12ch;
+  }
+  .hero .lede{
+    margin-top:22px; font-size:1.1rem; color:var(--ink-soft); max-width:46ch;
+  }
+  .hero .cta-row{
+    margin-top:34px; display:flex; gap:16px; align-items:center; flex-wrap:wrap;
+  }
+  .btn-primary{
+    background:var(--amber); color:var(--navy); font-weight:600;
+    padding:14px 26px; border-radius:var(--radius); text-decoration:none;
+    border:1px solid var(--amber);
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    display:inline-block;
+  }
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(217,142,62,0.35);}
+  .btn-ghost{
+    color:var(--navy); font-weight:500; text-decoration:none;
+    padding:14px 8px; border-bottom:1px solid var(--navy);
+  }
+  .hero-figure{
+    position:relative; aspect-ratio:1/1; border-radius:14px;
+    background:var(--navy); overflow:hidden;
+  }
+  .beam{
+    position:absolute; top:50%; left:50%;
+    width:220%; height:64px;
+    background:linear-gradient(90deg, rgba(217,142,62,0) 0%, rgba(217,142,62,0.9) 45%, rgba(217,142,62,0) 100%);
+    transform-origin:0% 50%;
+    animation:sweep 6s ease-in-out infinite;
+    mix-blend-mode:screen;
+  }
+  @keyframes sweep{
+    0%{transform:translate(-8%,-50%) rotate(-24deg);}
+    50%{transform:translate(-8%,-50%) rotate(24deg);}
+    100%{transform:translate(-8%,-50%) rotate(-24deg);}
+  }
+  .grid-dots{
+    position:absolute; inset:0;
+    background-image:radial-gradient(rgba(247,244,238,0.14) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  .lighthouse-svg{position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:46%;}
+
+  /* ---------- trust strip ---------- */
+  .trust{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:26px 32px;
+  }
+  .trust .wrap{
+    display:flex; gap:48px; align-items:center; justify-content:center;
+    flex-wrap:wrap; color:var(--ink-soft); font-size:0.92rem;
+  }
+  .trust strong{color:var(--navy); font-family:'Fraunces',serif; font-weight:600;}
+
+  section{padding:96px 32px;}
+  .section-head{max-width:60ch; margin-bottom:52px;}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.3rem);}
+  .section-head p{margin-top:14px; color:var(--ink-soft); font-size:1.05rem;}
+
+  /* ---------- services (tiers, not a sequence) ---------- */
+  .tiers{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  }
+  .tier{
+    background:#fff; border:1px solid var(--line); border-radius:10px;
+    padding:32px 28px; display:flex; flex-direction:column; gap:18px;
+  }
+  .tier.featured{
+    background:var(--navy); border-color:var(--navy);
+  }
+  .tier.featured h3, .tier.featured .tier-price{color:var(--paper);}
+  .tier.featured p, .tier.featured li{color:rgba(247,244,238,0.78);}
+  .tier h3{font-size:1.3rem;}
+  .tier-price{font-family:'Fraunces',serif; font-size:1.6rem; color:var(--navy); font-weight:500;}
+  .tier-price span{font-family:'Inter',sans-serif; font-size:0.85rem; color:var(--ink-soft); font-weight:400;}
+  .tier p{color:var(--ink-soft); font-size:0.96rem;}
+  .tier ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .tier li{font-size:0.93rem; color:var(--ink-soft); padding-left:20px; position:relative;}
+  .tier li::before{
+    content:""; position:absolute; left:0; top:8px; width:8px; height:8px;
+    border-radius:2px; background:var(--amber);
+  }
+  .tier .btn-primary, .tier .btn-outline{margin-top:auto; text-align:center;}
+  .btn-outline{
+    border:1px solid var(--navy); color:var(--navy); padding:12px 20px; border-radius:var(--radius);
+    text-decoration:none; font-weight:500; display:block; transition:background 0.2s ease;
+  }
+  .btn-outline:hover{background:var(--navy); color:var(--paper);}
+  .tier.featured .btn-outline{border-color:var(--paper); color:var(--paper);}
+  .tier.featured .btn-outline:hover{background:var(--paper); color:var(--navy);}
+
+  /* ---------- process (real sequence, numbered) ---------- */
+  .process-alt{background:var(--navy); color:var(--paper);}
+  .process-alt .section-head h2{color:var(--paper);}
+  .process-alt .section-head p{color:rgba(247,244,238,0.7);}
+  .steps{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    border-top:1px solid var(--paper-line);
+  }
+  .step{
+    padding:32px 24px 0 0; border-right:1px solid var(--paper-line);
+  }
+  .step:last-child{border-right:none;}
+  .step-num{
+    font-family:'Fraunces',serif; font-size:0.95rem; color:var(--amber); margin-bottom:14px; display:block;
+  }
+  .step h3{color:var(--paper); font-size:1.15rem; margin-bottom:10px;}
+  .step p{color:rgba(247,244,238,0.7); font-size:0.94rem;}
+
+  /* ---------- work ---------- */
+  .work-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  }
+  .work-item{
+    border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff;
+  }
+  .work-thumb{
+    aspect-ratio:4/3; position:relative; overflow:hidden;
+  }
+  .work-thumb svg{width:100%; height:100%;}
+  .work-body{padding:20px 22px 24px;}
+  .work-body .kicker{font-size:0.82rem; color:var(--teal); font-weight:600; margin-bottom:6px; display:block;}
+  .work-body h3{font-size:1.1rem; margin-bottom:6px;}
+  .work-body p{color:var(--ink-soft); font-size:0.92rem;}
+
+  /* ---------- testimonials ---------- */
+  .testimonials{background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .testimonial-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+  .testimonial{background:#fff; padding:36px 32px;}
+  .testimonial p.quote{
+    font-family:'Fraunces',serif; font-size:1.15rem; color:var(--navy); line-height:1.5;
+  }
+  .testimonial .attrib{margin-top:20px; display:flex; flex-direction:column; gap:2px;}
+  .testimonial .attrib .name{font-weight:600; font-size:0.94rem;}
+  .testimonial .attrib .role{font-size:0.86rem; color:var(--ink-soft);}
+
+  /* ---------- pricing footnote / faq ---------- */
+  .faq{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px;
+  }
+  .faq-list{display:flex; flex-direction:column;}
+  .faq-item{border-bottom:1px solid var(--line); padding:22px 0;}
+  .faq-item summary{
+    cursor:pointer; font-weight:600; color:var(--navy); font-size:1.02rem;
+    list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"+"; font-family:'Fraunces',serif; font-size:1.3rem; color:var(--amber); flex-shrink:0;
+    transition:transform 0.2s ease;
+  }
+  .faq-item[open] summary::after{transform:rotate(45deg);}
+  .faq-item p{margin-top:14px; color:var(--ink-soft); font-size:0.95rem; max-width:60ch;}
+
+  /* ---------- final cta ---------- */
+  .final-cta{
+    background:var(--teal); color:var(--paper); border-radius:14px;
+    padding:64px 56px; display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap;
+    margin:0 32px 0; max-width:calc(var(--maxw) - 0px); margin-left:auto; margin-right:auto;
+  }
+  .final-cta h2{color:var(--paper); font-size:clamp(1.6rem,3vw,2.1rem); max-width:20ch;}
+  .final-cta .btn-primary{white-space:nowrap;}
+
+  footer{
+    padding:56px 32px 40px; border-top:1px solid var(--line);
+  }
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px;
+  }
+  .footer-grid h4{font-size:0.9rem; color:var(--navy); margin-bottom:14px; font-weight:600;}
+  .footer-grid ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .footer-grid a{font-size:0.9rem; color:var(--ink-soft); text-decoration:none;}
+  .footer-grid a:hover{color:var(--navy);}
+  .footer-brand p{color:var(--ink-soft); font-size:0.9rem; max-width:32ch; margin-top:12px;}
+  .footer-bottom{
+    margin-top:48px; padding-top:24px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; color:var(--ink-soft); font-size:0.85rem; flex-wrap:wrap; gap:12px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:920px){
+    .hero{grid-template-columns:1fr; padding-top:48px;}
+    .hero-figure{order:-1; max-width:420px; margin:0 auto;}
+    .tiers{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr 1fr; row-gap:32px;}
+    .step{border-right:none; border-bottom:1px solid var(--paper-line); padding-bottom:24px;}
+    .work-grid{grid-template-columns:1fr 1fr;}
+    .testimonial-grid{grid-template-columns:1fr;}
+    .faq{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .final-cta{padding:44px 32px;}
+  }
+  @media (max-width:640px){
+    .nav-links{display:none;}
+    .work-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    section{padding:64px 20px;}
+    .hero{padding:40px 20px 56px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L8 9H16L12 2Z" fill="#D98E3E"/>
+        <path d="M9 9H15L16.5 21H7.5L9 9Z" fill="#1B2A3A"/>
+        <rect x="7" y="16" width="10" height="2" fill="#F7F4EE"/>
+      </svg>
+      Lighthouse Web Co.
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get a quote</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero" style="padding-top:96px;">
+    <div>
+      <h1>Websites that earn their keep, not just their design.</h1>
+      <p class="lede">We plan, design, and build sites for small and growing businesses — the kind that load fast, rank on Google, and turn visitors into customers. No templates dressed up as custom work.</p>
+      <div class="cta-row">
+        <a href="#contact" class="btn-primary">Start your project</a>
+        <a href="#work" class="btn-ghost">See recent work</a>
+      </div>
+    </div>
+    <div class="hero-figure">
+      <div class="grid-dots"></div>
+      <div class="beam"></div>
+      <svg class="lighthouse-svg" viewBox="0 0 200 260" fill="none">
+        <rect x="70" y="60" width="60" height="180" fill="#0F1822"/>
+        <path d="M100 20L70 60H130L100 20Z" fill="#D98E3E"/>
+        <rect x="82" y="80" width="36" height="22" rx="2" fill="#F7F4EE" fill-opacity="0.9"/>
+        <rect x="70" y="230" width="60" height="10" fill="#0F1822"/>
+        <rect x="55" y="240" width="90" height="12" fill="#101c28"/>
+      </svg>
+    </div>
+  </section>
+
+  <div class="trust">
+    <div class="wrap">
+      <span><strong>40+</strong> businesses launched since 2022</span>
+      <span><strong>2–4 week</strong> average turnaround</span>
+      <span><strong>98%</strong> client satisfaction on delivery surveys</span>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="section-head">
+      <h2>Three ways to get online, done properly</h2>
+      <p>Pick the level of build that matches where your business is right now. Every tier includes mobile-friendly design, basic SEO setup, and a working handover — nothing is left half-finished.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Starter Site</h3>
+        <p class="tier-price">R8,500 <span>/ one-time</span></p>
+        <p>For a solo business or new venture that needs a credible presence fast.</p>
+        <ul>
+          <li>Up to 5 pages</li>
+          <li>Mobile-friendly design</li>
+          <li>Contact form &amp; map</li>
+          <li>2 rounds of revisions</li>
+          <li>2-week turnaround</li>
+        </ul>
+        <a href="#contact" class="btn-outline">Choose Starter</a>
+      </div>
+      <div class="tier featured">
+        <h3>Business Site</h3>
+        <p class="tier-price">R18,900 <span>/ one-time</span></p>
+        <p>Our most common build — for a business ready to sell and be found online.</p>
+        <ul>
+          <li>Up to 12 pages</li>
+          <li>Custom design, not a template</li>
+          <li>Booking or enquiry system</li>
+          <li>On-page SEO for 10 keywords</li>
+          <li>Basic analytics dashboard</li>
+          <li>4-week turnaround</li>
+        </ul>
+        <a href="#contact" class="btn-outline">Choose Business</a>
+      </div>
+      <div class="tier">
+        <h3>Custom Build</h3>
+        <p class="tier-price">From R35,000 <span>/ project</span></p>
+        <p>For stores, booking platforms, or anything with real product logic behind it.</p>
+        <ul>
+          <li>Unlimited pages</li>
+          <li>Online store or portal</li>
+          <li>Custom integrations (CRM, payments)</li>
+          <li>Content migration</li>
+          <li>Dedicated project lead</li>
+        </ul>
+        <a href="#contact" class="btn-outline">Talk about scope</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="process-alt">
+    <div class="section-head">
+      <h2>How a project actually runs</h2>
+      <p>Four stages, always in this order. You'll know what's happening and what we need from you at each one.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h3>Discover</h3>
+        <p>A working session to map your goals, your customers, and what "done" looks like — before any design starts.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <h3>Design</h3>
+        <p>We build a full design of your homepage and one inner page first, so you can react before we build the rest.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <h3>Build</h3>
+        <p>Development happens in the open — you get a staging link to click through as pages come together.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <h3>Launch</h3>
+        <p>We handle DNS, hosting, and a final walkthrough, then hand over the keys — with a plain-English guide.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="section-head">
+      <h2>Recent work</h2>
+      <p>A small sample of what we've shipped. Every project below went from first call to live site in under six weeks.</p>
+    </div>
+    <div class="work-grid">
+      <div class="work-item">
+        <div class="work-thumb">
+          <svg viewBox="0 0 400 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="300" fill="#EFE8DA"/>
+            <rect x="0" y="0" width="400" height="64" fill="#1B2A3A"/>
+            <rect x="24" y="24" width="90" height="16" rx="2" fill="#D98E3E"/>
+            <rect x="30" y="100" width="180" height="20" rx="2" fill="#1B2A3A"/>
+            <rect x="30" y="132" width="240" height="10" rx="2" fill="#8A9099"/>
+            <rect x="30" y="150" width="200" height="10" rx="2" fill="#8A9099"/>
+            <rect x="30" y="190" width="120" height="36" rx="4" fill="#3D6B66"/>
+            <rect x="250" y="90" width="120" height="150" rx="4" fill="#D9CFC0"/>
+          </svg>
+        </div>
+        <div class="work-body">
+          <span class="kicker">Restaurant</span>
+          <h3>Marabou Bistro</h3>
+          <p>Menu, table bookings, and a photo-led homepage that brings in evening reservations.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-thumb">
+          <svg viewBox="0 0 400 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="300" fill="#E4EAE8"/>
+            <rect x="0" y="0" width="400" height="50" fill="#3D6B66"/>
+            <circle cx="200" cy="150" r="70" fill="#1B2A3A" fill-opacity="0.08"/>
+            <rect x="120" y="120" width="160" height="18" rx="3" fill="#1B2A3A"/>
+            <rect x="120" y="148" width="120" height="10" rx="2" fill="#8A9099"/>
+            <rect x="140" y="190" width="120" height="34" rx="17" fill="#D98E3E"/>
+          </svg>
+        </div>
+        <div class="work-body">
+          <span class="kicker">Professional services</span>
+          <h3>Halden &amp; Co. Attorneys</h3>
+          <p>A calm, credibility-first rebuild with practice-area pages and a clear intake form.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-thumb">
+          <svg viewBox="0 0 400 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="300" fill="#1B2A3A"/>
+            <rect x="30" y="40" width="150" height="14" rx="2" fill="#D98E3E"/>
+            <rect x="30" y="70" width="220" height="10" rx="2" fill="#C9CED4"/>
+            <rect x="30" y="120" width="110" height="110" rx="6" fill="#3D6B66"/>
+            <rect x="150" y="120" width="110" height="110" rx="6" fill="#2B3F52"/>
+            <rect x="270" y="120" width="100" height="110" rx="6" fill="#3D6B66"/>
+          </svg>
+        </div>
+        <div class="work-body">
+          <span class="kicker">Retail</span>
+          <h3>Foothill Outdoor Supply</h3>
+          <p>A small online store built on Custom Build, with local pickup and stock sync.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="section-head">
+      <h2>What clients say once the site is live</h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        <p class="quote">They pushed back on a couple of ideas I had — kindly, but clearly — and the site is better for it. Bookings went up within the first month.</p>
+        <div class="attrib">
+          <span class="name">Naledi M.</span>
+          <span class="role">Owner, Marabou Bistro</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="quote">I've paid for two websites before this one and never understood what I was getting. This time I saw the site take shape every week.</p>
+        <div class="attrib">
+          <span class="name">Grant H.</span>
+          <span class="role">Partner, Halden &amp; Co.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="section-head">
+      <h2>What's included, always</h2>
+      <p>Regardless of tier, these are non-negotiable parts of any project we take on.</p>
+    </div>
+    <div class="tiers" style="grid-template-columns:repeat(4,1fr);">
+      <div class="tier" style="padding:26px 22px;">
+        <h3 style="font-size:1.05rem;">Hosting setup</h3>
+        <p>We configure hosting and domain connection — you own both accounts.</p>
+      </div>
+      <div class="tier" style="padding:26px 22px;">
+        <h3 style="font-size:1.05rem;">Basic SEO</h3>
+        <p>Page titles, meta descriptions, and sitemap submitted to Google.</p>
+      </div>
+      <div class="tier" style="padding:26px 22px;">
+        <h3 style="font-size:1.05rem;">Handover guide</h3>
+        <p>A short written guide so you can update text and images yourself.</p>
+      </div>
+      <div class="tier" style="padding:26px 22px;">
+        <h3 style="font-size:1.05rem;">30-day support</h3>
+        <p>Free fixes for anything that isn't working as agreed at launch.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="faq">
+      <div class="section-head" style="margin-bottom:0;">
+        <h2>Questions we get asked</h2>
+        <p>If yours isn't here, it's faster to just ask — see the contact details below.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>How long does a website actually take?</summary>
+          <p>Starter sites take about two weeks, Business sites about four, and Custom Builds depend on scope — we'll give you a real date after the Discover call, not before.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I own the website afterward?</summary>
+          <p>Yes. Hosting and domain accounts are set up in your name, and you receive full files and admin access at handover.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can you work with a logo and branding we already have?</summary>
+          <p>Yes — we design around your existing brand rather than replacing it. If you don't have branding yet, we can scope that separately.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What if I need changes after launch?</summary>
+          <p>The first 30 days of fixes are included. After that, we offer a simple monthly care plan, or you can update content yourself using the handover guide.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding-top:0;">
+    <div class="final-cta">
+      <h2>Tell us about your business — we'll reply within one working day.</h2>
+      <a href="mailto:hello@lighthousewebco.com" class="btn-primary">hello@lighthousewebco.com</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="#top" class="brand" style="margin-bottom:0;">
+        <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L8 9H16L12 2Z" fill="#D98E3E"/>
+          <path d="M9 9H15L16.5 21H7.5L9 9Z" fill="#1B2A3A"/>
+          <rect x="7" y="16" width="10" height="2" fill="#F7F4EE"/>
+        </svg>
+        Lighthouse Web Co.
+      </a>
+      <p>Websites built for small and growing businesses — planned properly, built to last.</p>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Starter Site</a></li>
+        <li><a href="#services">Business Site</a></li>
+        <li><a href="#services">Custom Build</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#process">Our process</a></li>
+        <li><a href="#work">Our work</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hello@lighthousewebco.com">hello@lighthousewebco.com</a></li>
+        <li><a href="tel:+27110000000">+27 11 000 0000</a></li>
+        <li><a href="#contact">Request a quote</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 Lighthouse Web Co.</span>
+    <span>Johannesburg, South Africa</span>
+  </div>
+</footer>
+
+</body>
+</html>
