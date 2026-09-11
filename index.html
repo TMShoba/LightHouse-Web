@@ -3,54 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lighthouse Web Co. — Websites for growing businesses</title>
+<title>Volt — Websites that convert</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#1B2A3A;
-    --navy-deep:#0F1822;
-    --paper:#F7F4EE;
-    --amber:#D98E3E;
-    --amber-bright:#F0A54A;
-    --teal:#3D6B66;
-    --teal-bright:#4A8A83;
-    --ink:#22262B;
-    --ink-soft:#5B6570;
-    --line:rgba(27,42,58,0.12);
-    --paper-line:rgba(247,244,238,0.16);
-    --radius:8px;
-    --maxw:1140px;
-    --ease-out:cubic-bezier(0.22,1,0.36,1);
-    --ease-spring:cubic-bezier(0.34,1.56,0.64,1);
+    --bg:#07090d;
+    --surface:#10141b;
+    --surface-2:#171c25;
+    --line:rgba(255,255,255,0.08);
+    --line-strong:rgba(255,255,255,0.14);
+    --text:#f0f3f7;
+    --muted:#8b95a8;
+    --accent:#00e8c0;
+    --accent-dim:rgba(0,232,192,0.14);
+    --accent-hot:#ff5e3a;
+    --violet:#8b7cff;
+    --radius:12px;
+    --maxw:1080px;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+    --spring:cubic-bezier(0.34,1.4,0.64,1);
   }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  *{box-sizing:border-box; margin:0;}
+  html,body{height:100%;}
   body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'DM Sans',sans-serif;
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
   h1,h2,h3,h4{
-    font-family:'Fraunces',serif;
-    font-weight:500;
-    line-height:1.12;
-    margin:0;
-    color:var(--navy);
+    font-family:'Syne',sans-serif;
+    font-weight:700;
+    line-height:1.08;
+    letter-spacing:-0.02em;
   }
-  p{margin:0;}
-  a{color:inherit;}
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
-  img,svg{display:block;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
 
-  /* focus */
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
-    outline:2px solid var(--teal);
+    outline:2px solid var(--accent);
     outline-offset:3px;
   }
 
@@ -59,94 +55,78 @@
       animation-duration:0.01ms !important;
       animation-iteration-count:1 !important;
       transition-duration:0.01ms !important;
-      scroll-behavior:auto !important;
     }
-    .reveal{opacity:1 !important; transform:none !important;}
   }
 
-  /* ---------- scroll progress ---------- */
-  .scroll-progress{
-    position:fixed; top:0; left:0; height:3px; width:0%;
-    background:linear-gradient(90deg, var(--amber), var(--teal));
-    z-index:100; transform-origin:left;
-    transition:width 0.08s linear;
+  /* ambient glow */
+  .bg-glow{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% -10%, rgba(0,232,192,0.12), transparent 55%),
+      radial-gradient(ellipse 50% 35% at 90% 20%, rgba(139,124,255,0.1), transparent 50%),
+      radial-gradient(ellipse 40% 30% at 70% 90%, rgba(255,94,58,0.06), transparent 50%);
   }
-
-  /* ---------- custom cursor glow (desktop) ---------- */
-  .cursor-glow{
-    position:fixed; width:280px; height:280px; border-radius:50%;
-    background:radial-gradient(circle, rgba(217,142,62,0.12) 0%, transparent 70%);
-    pointer-events:none; z-index:90; mix-blend-mode:multiply;
-    transform:translate(-50%,-50%); opacity:0; transition:opacity 0.35s ease;
-  }
-  body.has-cursor .cursor-glow{opacity:1;}
 
   /* ---------- header ---------- */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(247,244,238,0.88);
-    backdrop-filter:blur(14px) saturate(1.2);
-    border-bottom:1px solid transparent;
-    transition:border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  }
-  header.is-scrolled{
-    border-bottom-color:var(--line);
-    box-shadow:0 12px 40px -20px rgba(27,42,58,0.28);
-    background:rgba(247,244,238,0.94);
+    background:rgba(7,9,13,0.8);
+    backdrop-filter:blur(16px) saturate(1.3);
+    border-bottom:1px solid var(--line);
   }
   .nav{
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 32px;
-    max-width:var(--maxw); margin:0 auto;
-    transition:padding 0.3s var(--ease-out);
+    padding:14px 28px; max-width:var(--maxw); margin:0 auto; gap:16px;
   }
-  header.is-scrolled .nav{padding-top:12px; padding-bottom:12px;}
   .brand{
     display:flex; align-items:center; gap:10px;
-    font-family:'Fraunces',serif; font-size:1.15rem; font-weight:600; color:var(--navy);
-    text-decoration:none; position:relative;
+    font-family:'Syne',sans-serif; font-weight:800; font-size:1.25rem;
+    letter-spacing:-0.03em;
   }
   .brand-mark{
-    width:26px; height:26px; flex-shrink:0;
-    transition:transform 0.4s var(--ease-spring);
+    width:28px; height:28px; border-radius:8px;
+    background:linear-gradient(135deg, var(--accent), #00b894);
+    display:grid; place-items:center;
+    box-shadow:0 0 20px rgba(0,232,192,0.35);
   }
-  .brand:hover .brand-mark{transform:rotate(-8deg) scale(1.08);}
-  .nav-links{
-    display:flex; gap:32px; list-style:none; margin:0; padding:0;
+  .brand-mark svg{width:16px; height:16px;}
+
+  .nav-tabs{
+    display:flex; gap:4px; list-style:none; padding:0; margin:0;
+    background:var(--surface); border-radius:100px; padding:4px;
+    border:1px solid var(--line);
   }
-  .nav-links a{
-    text-decoration:none; font-size:0.92rem; color:var(--ink); font-weight:500;
-    padding-bottom:4px; border-bottom:2px solid transparent;
-    transition:border-color 0.25s ease, color 0.25s ease;
-    position:relative;
+  .nav-tabs button{
+    background:transparent; border:none; color:var(--muted);
+    font-size:0.88rem; font-weight:600; padding:9px 16px;
+    border-radius:100px; cursor:pointer;
+    transition:color 0.2s, background 0.2s, transform 0.2s var(--spring);
   }
-  .nav-links a:hover, .nav-links a.is-active{
-    color:var(--navy); border-color:var(--amber);
+  .nav-tabs button:hover{color:var(--text);}
+  .nav-tabs button.is-active{
+    background:var(--accent-dim); color:var(--accent);
   }
+
   .nav-cta{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--navy); color:var(--paper) !important;
-    padding:11px 22px; border-radius:var(--radius); font-size:0.9rem; font-weight:600;
-    text-decoration:none; border:1px solid var(--navy);
-    transition:transform 0.25s var(--ease-spring), box-shadow 0.25s ease, background 0.2s ease;
-    position:relative; overflow:hidden;
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--accent); color:#04120e;
+    font-weight:700; font-size:0.88rem;
+    padding:10px 18px; border-radius:100px;
+    transition:transform 0.25s var(--spring), box-shadow 0.25s;
   }
-  .nav-cta::before{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(120deg, transparent 30%, rgba(247,244,238,0.15) 50%, transparent 70%);
-    transform:translateX(-100%); transition:transform 0.5s ease;
+  .nav-cta:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px -6px rgba(0,232,192,0.5);
   }
-  .nav-cta:hover{background:#101c28; transform:translateY(-2px); box-shadow:0 8px 20px -6px rgba(27,42,58,0.4);}
-  .nav-cta:hover::before{transform:translateX(100%);}
 
   .nav-toggle{
-    display:none; width:40px; height:36px; border:none; background:none; cursor:pointer;
-    position:relative; padding:0; border-radius:6px;
+    display:none; width:40px; height:36px; border:none; background:none;
+    cursor:pointer; position:relative; padding:0;
   }
   .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
-    content:""; position:absolute; left:8px; right:8px; height:2px; background:var(--navy);
-    border-radius:1px;
-    transition:transform 0.3s var(--ease-out), opacity 0.25s ease, top 0.3s var(--ease-out);
+    content:""; position:absolute; left:8px; right:8px; height:2px;
+    background:var(--text); border-radius:1px;
+    transition:0.3s var(--ease);
   }
   .nav-toggle span{top:17px;}
   .nav-toggle span::before{top:-8px;}
@@ -156,946 +136,680 @@
   .nav-toggle[aria-expanded="true"] span::after{top:0; transform:rotate(-45deg);}
 
   .mobile-menu{
-    max-height:0; overflow:hidden; transition:max-height 0.4s var(--ease-out);
+    display:none; max-height:0; overflow:hidden;
+    transition:max-height 0.35s var(--ease);
     border-top:1px solid transparent;
   }
-  .mobile-menu.is-open{max-height:380px; border-top-color:var(--line);}
-  .mobile-menu ul{list-style:none; margin:0; padding:12px 28px 28px; display:flex; flex-direction:column; gap:2px;}
-  .mobile-menu a{
-    display:block; padding:14px 0; text-decoration:none; color:var(--navy); font-weight:500;
-    border-bottom:1px solid var(--line); font-size:1.05rem;
-    transition:color 0.2s ease, padding-left 0.2s ease;
+  .mobile-menu.is-open{max-height:320px; border-top-color:var(--line);}
+  .mobile-menu ul{list-style:none; padding:12px 20px 20px; display:flex; flex-direction:column; gap:4px;}
+  .mobile-menu button{
+    width:100%; text-align:left; background:none; border:none;
+    color:var(--text); font-size:1.05rem; font-weight:600;
+    padding:12px 8px; cursor:pointer; border-radius:8px;
   }
-  .mobile-menu a:hover{color:var(--amber); padding-left:6px;}
-  .mobile-menu .nav-cta{display:inline-flex; margin-top:16px; border:none;}
+  .mobile-menu button:hover, .mobile-menu button.is-active{background:var(--accent-dim); color:var(--accent);}
 
-  /* ---------- reveal ---------- */
-  .reveal{
-    opacity:0; transform:translateY(28px);
-    transition:opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  /* ---------- pages ---------- */
+  main{position:relative; z-index:1; min-height:calc(100vh - 70px);}
+  .page{
+    display:none;
+    padding:48px 0 64px;
+    animation:pageIn 0.45s var(--ease);
   }
-  .reveal.is-visible{opacity:1; transform:translateY(0);}
+  .page.is-active{display:block;}
+  @keyframes pageIn{
+    from{opacity:0; transform:translateY(16px);}
+    to{opacity:1; transform:translateY(0);}
+  }
 
-  /* ---------- hero ---------- */
-  .hero{
-    position:relative;
-    padding:100px 32px 90px;
-    max-width:var(--maxw); margin:0 auto;
-    display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;
-    min-height:min(88vh, 820px);
+  /* ---------- home ---------- */
+  .home-hero{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px;
+    align-items:center; min-height:min(72vh, 640px);
   }
-  .hero-copy{position:relative; z-index:2;}
-  .hero-badge{
+  .badge{
     display:inline-flex; align-items:center; gap:8px;
-    background:rgba(217,142,62,0.12); color:var(--navy);
-    font-size:0.82rem; font-weight:600; letter-spacing:0.02em;
-    padding:7px 14px; border-radius:100px; margin-bottom:22px;
-    border:1px solid rgba(217,142,62,0.25);
+    background:var(--accent-dim); color:var(--accent);
+    font-size:0.8rem; font-weight:700; letter-spacing:0.04em;
+    padding:6px 14px; border-radius:100px; margin-bottom:20px;
+    border:1px solid rgba(0,232,192,0.25);
   }
-  .hero-badge .dot{
-    width:7px; height:7px; border-radius:50%; background:var(--amber);
-    animation:pulse-dot 1.8s ease-in-out infinite;
+  .badge .dot{
+    width:7px; height:7px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 10px var(--accent);
+    animation:pulse 1.6s ease-in-out infinite;
   }
-  @keyframes pulse-dot{
-    0%,100%{transform:scale(1); opacity:1;}
-    50%{transform:scale(1.35); opacity:0.7;}
+  @keyframes pulse{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:0.6; transform:scale(1.3);}
   }
-  .hero h1{
-    font-size:clamp(2.5rem, 4.6vw, 3.85rem);
-    letter-spacing:-0.02em;
-    max-width:13ch;
-    line-height:1.08;
+  .home-hero h1{
+    font-size:clamp(2.6rem, 5vw, 4rem);
+    max-width:12ch; margin-bottom:18px;
   }
-  .hero h1 .line{display:block; overflow:hidden;}
-  .hero h1 .line span{
-    display:inline-block;
-    transform:translateY(110%);
-    transition:transform 0.85s var(--ease-out);
+  .home-hero h1 em{
+    font-style:normal;
+    background:linear-gradient(120deg, var(--accent), #5eead4);
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent;
   }
-  .hero.is-ready h1 .line span{transform:translateY(0);}
-  .hero h1 .line:nth-child(1) span{transition-delay:0.08s;}
-  .hero h1 .line:nth-child(2) span{transition-delay:0.18s;}
-  .hero h1 .line:nth-child(3) span{transition-delay:0.28s;}
-  .hero .lede{
-    margin-top:24px; font-size:1.12rem; color:var(--ink-soft); max-width:44ch;
-    opacity:0; transform:translateY(16px);
-    transition:opacity 0.7s ease 0.4s, transform 0.7s var(--ease-out) 0.4s;
+  .home-hero .lede{
+    color:var(--muted); font-size:1.1rem; max-width:40ch; margin-bottom:32px;
   }
-  .hero.is-ready .lede{opacity:1; transform:translateY(0);}
-  .hero .cta-row{
-    margin-top:36px; display:flex; gap:18px; align-items:center; flex-wrap:wrap;
-    opacity:0; transform:translateY(14px);
-    transition:opacity 0.7s ease 0.55s, transform 0.7s var(--ease-out) 0.55s;
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-weight:700; font-size:0.95rem;
+    padding:14px 24px; border-radius:100px;
+    border:none; cursor:pointer;
+    transition:transform 0.25s var(--spring), box-shadow 0.25s, background 0.2s;
   }
-  .hero.is-ready .cta-row{opacity:1; transform:translateY(0);}
   .btn-primary{
-    background:var(--amber); color:var(--navy); font-weight:600;
-    padding:15px 28px; border-radius:var(--radius); text-decoration:none;
-    border:1px solid var(--amber);
-    transition:transform 0.25s var(--ease-spring), box-shadow 0.25s ease, background 0.2s ease;
-    display:inline-flex; align-items:center; gap:8px;
-    position:relative; overflow:hidden;
-  }
-  .btn-primary::after{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
-    transform:translateX(-120%); transition:transform 0.55s ease;
+    background:var(--accent); color:#04120e;
   }
   .btn-primary:hover{
-    transform:translateY(-3px); box-shadow:0 12px 28px -8px rgba(217,142,62,0.5);
-    background:var(--amber-bright);
+    transform:translateY(-3px);
+    box-shadow:0 12px 32px -8px rgba(0,232,192,0.55);
   }
-  .btn-primary:hover::after{transform:translateX(120%);}
   .btn-ghost{
-    color:var(--navy); font-weight:500; text-decoration:none;
-    padding:14px 6px; border-bottom:1.5px solid var(--navy);
-    transition:border-color 0.2s ease, color 0.2s ease;
+    background:transparent; color:var(--text);
+    border:1.5px solid var(--line-strong);
   }
-  .btn-ghost:hover{border-color:var(--amber); color:var(--amber);}
+  .btn-ghost:hover{
+    border-color:var(--accent); color:var(--accent);
+    transform:translateY(-2px);
+  }
 
-  /* hero figure — interactive lighthouse */
-  .hero-figure{
-    position:relative; aspect-ratio:1/1; border-radius:18px;
-    background:var(--navy-deep); overflow:hidden;
-    box-shadow:0 32px 64px -24px rgba(15,24,34,0.55), 0 0 0 1px rgba(255,255,255,0.04) inset;
-    transform:scale(0.94); opacity:0;
-    transition:transform 1s var(--ease-out) 0.2s, opacity 0.9s ease 0.2s;
+  .hero-visual{
+    position:relative; aspect-ratio:1; border-radius:24px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    overflow:hidden;
+    box-shadow:0 32px 64px -24px rgba(0,0,0,0.5);
   }
-  .hero.is-ready .hero-figure{transform:scale(1); opacity:1;}
-  .grid-dots{
+  .hero-visual .grid{
     position:absolute; inset:0;
-    background-image:radial-gradient(rgba(247,244,238,0.11) 1px, transparent 1px);
-    background-size:24px 24px;
-    mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 75%);
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size:40px 40px;
+    mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
   }
-  .beam-wrap{
-    position:absolute; top:50%; left:50%;
-    width:0; height:0;
-    transform-origin:0 0;
-    will-change:transform;
-  }
-  .beam{
-    position:absolute; top:-32px; left:0;
-    width:min(140vw, 900px); height:64px;
-    background:linear-gradient(90deg,
-      rgba(217,142,62,0) 0%,
-      rgba(217,142,62,0.15) 8%,
-      rgba(240,165,74,0.85) 42%,
-      rgba(217,142,62,0.35) 70%,
-      rgba(217,142,62,0) 100%);
-    transform-origin:0% 50%;
-    mix-blend-mode:screen;
-    filter:blur(0.5px);
-    pointer-events:none;
-  }
-  .beam::after{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
-    animation:beam-shimmer 3.2s ease-in-out infinite;
-  }
-  @keyframes beam-shimmer{
-    0%,100%{opacity:0.4; transform:translateX(-10%);}
-    50%{opacity:1; transform:translateX(10%);}
-  }
-  .lighthouse-svg{
-    position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-    width:48%; z-index:2; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.35));
-  }
-  .hero-glow{
-    position:absolute; bottom:18%; left:50%; transform:translateX(-50%);
-    width:60%; height:40%;
-    background:radial-gradient(ellipse, rgba(217,142,62,0.25) 0%, transparent 70%);
-    pointer-events:none; z-index:1;
-  }
-  .float-orbs{
-    position:absolute; inset:0; pointer-events:none; overflow:hidden;
-  }
-  .orb{
+  .hero-orb{
     position:absolute; border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, rgba(247,244,238,0.18), transparent 70%);
-    animation:float-orb 12s ease-in-out infinite;
+    filter:blur(40px); opacity:0.7;
+    animation:float 10s ease-in-out infinite;
   }
-  .orb:nth-child(1){width:90px; height:90px; top:12%; left:8%; animation-duration:14s;}
-  .orb:nth-child(2){width:54px; height:54px; top:55%; right:12%; animation-duration:11s; animation-delay:-3s;}
-  .orb:nth-child(3){width:36px; height:36px; bottom:22%; left:22%; animation-duration:16s; animation-delay:-6s;}
-  @keyframes float-orb{
+  .hero-orb.a{
+    width:180px; height:180px; top:15%; left:10%;
+    background:var(--accent);
+  }
+  .hero-orb.b{
+    width:140px; height:140px; bottom:20%; right:15%;
+    background:var(--violet); animation-delay:-4s;
+  }
+  .hero-orb.c{
+    width:90px; height:90px; top:50%; left:45%;
+    background:var(--accent-hot); animation-delay:-2s; opacity:0.45;
+  }
+  @keyframes float{
     0%,100%{transform:translate(0,0) scale(1);}
-    33%{transform:translate(12px,-18px) scale(1.06);}
-    66%{transform:translate(-10px,10px) scale(0.96);}
+    33%{transform:translate(15px,-20px) scale(1.08);}
+    66%{transform:translate(-12px,12px) scale(0.95);}
+  }
+  .hero-center{
+    position:absolute; inset:0; display:grid; place-items:center;
+    font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(3rem,8vw,5rem);
+    letter-spacing:-0.04em; color:var(--text);
+    text-shadow:0 0 60px rgba(0,232,192,0.3);
+    z-index:2;
+  }
+  .hero-center span{
+    background:linear-gradient(135deg, #fff 30%, var(--accent));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
   }
 
-  /* ---------- trust strip ---------- */
-  .trust{
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-    padding:28px 32px;
-    background:rgba(255,255,255,0.45);
+  .trust-row{
+    display:flex; gap:36px; flex-wrap:wrap; justify-content:center;
+    margin-top:56px; padding-top:32px;
+    border-top:1px solid var(--line);
+    color:var(--muted); font-size:0.92rem;
   }
-  .trust .wrap{
-    display:flex; gap:48px; align-items:center; justify-content:center;
-    flex-wrap:wrap; color:var(--ink-soft); font-size:0.94rem;
-  }
-  .trust strong{
-    color:var(--navy); font-family:'Fraunces',serif; font-weight:600;
-    font-size:1.15em;
-  }
-  .trust-item{
-    display:flex; align-items:center; gap:10px;
-  }
-  .trust-item .icon{
-    width:28px; height:28px; border-radius:8px;
-    background:rgba(61,107,102,0.12); display:flex; align-items:center; justify-content:center;
-    color:var(--teal); font-size:0.85rem;
+  .trust-row strong{
+    color:var(--text); font-family:'Syne',sans-serif; font-weight:700;
   }
 
-  section{padding:100px 32px;}
-  .section-head{max-width:58ch; margin-bottom:56px;}
-  .section-head h2{font-size:clamp(1.85rem,3.2vw,2.5rem); letter-spacing:-0.015em;}
-  .section-head p{margin-top:16px; color:var(--ink-soft); font-size:1.08rem;}
+  /* ---------- shared page head ---------- */
+  .page-head{
+    margin-bottom:36px; max-width:48ch;
+  }
+  .page-head h1{
+    font-size:clamp(1.9rem, 3.5vw, 2.6rem); margin-bottom:12px;
+  }
+  .page-head p{color:var(--muted); font-size:1.05rem;}
 
-  /* ---------- services tiers ---------- */
+  /* ---------- services ---------- */
   .tiers{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
   }
   .tier{
-    background:#fff; border:1px solid var(--line); border-radius:14px;
-    padding:34px 30px; display:flex; flex-direction:column; gap:18px;
-    transition:transform 0.4s var(--ease-out), box-shadow 0.4s ease, border-color 0.3s ease;
-    position:relative; overflow:hidden;
-    transform-style:preserve-3d;
-  }
-  .tier::before{
-    content:""; position:absolute; top:0; left:0; right:0; height:3px;
-    background:linear-gradient(90deg, var(--amber), transparent);
-    opacity:0; transition:opacity 0.3s ease;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 24px;
+    display:flex; flex-direction:column; gap:14px;
+    transition:transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
   }
   .tier:hover{
-    transform:translateY(-8px);
-    box-shadow:0 24px 48px -20px rgba(27,42,58,0.2);
-    border-color:rgba(217,142,62,0.35);
+    transform:translateY(-6px);
+    border-color:rgba(0,232,192,0.35);
+    box-shadow:0 20px 40px -20px rgba(0,232,192,0.2);
   }
-  .tier:hover::before{opacity:1;}
   .tier.featured{
-    background:var(--navy); border-color:var(--navy);
-    box-shadow:0 20px 50px -18px rgba(27,42,58,0.45);
+    background:linear-gradient(160deg, #121a18 0%, var(--surface) 100%);
+    border-color:rgba(0,232,192,0.4);
+    box-shadow:0 0 0 1px rgba(0,232,192,0.15), 0 24px 48px -20px rgba(0,232,192,0.25);
   }
-  .tier.featured::before{background:linear-gradient(90deg, var(--amber), var(--amber-bright)); opacity:1;}
-  .tier.featured:hover{
-    transform:translateY(-10px) scale(1.02);
-    box-shadow:0 32px 64px -16px rgba(27,42,58,0.5);
-  }
-  .tier.featured h3, .tier.featured .tier-price{color:var(--paper);}
-  .tier.featured p, .tier.featured li{color:rgba(247,244,238,0.78);}
   .tier-label{
-    font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
-    color:var(--amber); margin-bottom:-6px;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--accent);
   }
-  .tier.featured .tier-label{color:var(--amber-bright);}
-  .tier h3{font-size:1.35rem;}
+  .tier h3{font-size:1.25rem;}
   .tier-price{
-    font-family:'Fraunces',serif; font-size:1.75rem; color:var(--navy); font-weight:500;
-    letter-spacing:-0.01em;
+    font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:700;
   }
-  .tier-price span{font-family:'Inter',sans-serif; font-size:0.82rem; color:var(--ink-soft); font-weight:400;}
-  .tier.featured .tier-price span{color:rgba(247,244,238,0.55);}
-  .tier p{color:var(--ink-soft); font-size:0.96rem;}
-  .tier ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px;}
+  .tier-price span{font-size:0.8rem; font-weight:500; color:var(--muted); font-family:'DM Sans',sans-serif;}
+  .tier > p{color:var(--muted); font-size:0.92rem;}
+  .tier ul{list-style:none; padding:0; display:flex; flex-direction:column; gap:9px; flex:1;}
   .tier li{
-    font-size:0.93rem; color:var(--ink-soft); padding-left:22px; position:relative;
+    font-size:0.9rem; color:var(--muted); padding-left:18px; position:relative;
   }
   .tier li::before{
-    content:""; position:absolute; left:0; top:7px; width:9px; height:9px;
-    border-radius:2.5px; background:var(--amber);
-    transition:transform 0.25s var(--ease-spring);
+    content:""; position:absolute; left:0; top:7px;
+    width:7px; height:7px; border-radius:2px; background:var(--accent);
   }
-  .tier:hover li::before{transform:scale(1.15) rotate(8deg);}
-  .tier .btn-primary, .tier .btn-outline{margin-top:auto; text-align:center;}
-  .btn-outline{
-    border:1.5px solid var(--navy); color:var(--navy); padding:13px 20px; border-radius:var(--radius);
-    text-decoration:none; font-weight:600; display:block;
-    transition:background 0.25s ease, color 0.25s ease, transform 0.25s var(--ease-spring), border-color 0.25s ease;
+  .tier .btn{margin-top:8px; justify-content:center; width:100%;}
+  .tier .btn-outline{
+    background:transparent; color:var(--text);
+    border:1.5px solid var(--line-strong);
   }
-  .btn-outline:hover{background:var(--navy); color:var(--paper); transform:translateY(-2px);}
-  .tier.featured .btn-outline{border-color:rgba(247,244,238,0.5); color:var(--paper);}
-  .tier.featured .btn-outline:hover{background:var(--paper); color:var(--navy); border-color:var(--paper);}
+  .tier .btn-outline:hover{
+    border-color:var(--accent); color:var(--accent);
+  }
+  .tier.featured .btn-outline{
+    background:var(--accent); color:#04120e; border-color:var(--accent);
+  }
+  .tier.featured .btn-outline:hover{
+    box-shadow:0 8px 24px -6px rgba(0,232,192,0.45);
+  }
 
-  /* ---------- process ---------- */
-  .process-alt{background:var(--navy); color:var(--paper); position:relative; overflow:hidden;}
-  .process-alt::before{
-    content:""; position:absolute; top:-20%; right:-10%; width:50%; height:70%;
-    background:radial-gradient(ellipse, rgba(217,142,62,0.12) 0%, transparent 65%);
-    pointer-events:none;
-  }
-  .process-alt .section-head h2{color:var(--paper);}
-  .process-alt .section-head p{color:rgba(247,244,238,0.68);}
-  .steps{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
-    border-top:1px solid var(--paper-line);
-    position:relative;
-  }
-  .step{
-    padding:36px 28px 8px 0; border-right:1px solid var(--paper-line);
-    position:relative;
-  }
-  .step:last-child{border-right:none;}
-  .step-num{
-    font-family:'Fraunces',serif; font-size:1rem; color:var(--amber);
-    margin-bottom:16px; display:inline-flex; align-items:center; gap:8px;
-  }
-  .step-num::after{
-    content:""; width:28px; height:1.5px; background:var(--amber); opacity:0.5;
-  }
-  .step h3{color:var(--paper); font-size:1.2rem; margin-bottom:12px;}
-  .step p{color:rgba(247,244,238,0.68); font-size:0.95rem; max-width:28ch;}
-  .step.reveal{transition-delay:calc(var(--i,0) * 0.1s);}
-
-  /* ---------- work / pricing included ---------- */
-  .included-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
-  }
-  .included-card{
-    background:#fff; border:1px solid var(--line); border-radius:12px;
-    padding:28px 24px; transition:transform 0.35s var(--ease-out), box-shadow 0.35s ease;
-  }
-  .included-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 16px 36px -16px rgba(27,42,58,0.18);
-  }
-  .included-card .icon-wrap{
-    width:42px; height:42px; border-radius:10px;
-    background:rgba(61,107,102,0.1); color:var(--teal);
-    display:flex; align-items:center; justify-content:center; margin-bottom:16px;
-    font-size:1.15rem;
-  }
-  .included-card h3{font-size:1.08rem; margin-bottom:8px;}
-  .included-card p{color:var(--ink-soft); font-size:0.92rem;}
-
-  /* ---------- testimonials ---------- */
-  .testimonials{background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
-  .testimonial-grid{
-    position:relative; border:1px solid var(--line); border-radius:14px; overflow:hidden;
-    background:#fff; min-height:220px; max-width:760px; margin:0 auto;
-    box-shadow:0 8px 32px -20px rgba(27,42,58,0.12);
-  }
-  .testimonial{
-    background:#fff; padding:44px 48px; position:absolute; inset:0;
-    opacity:0; transform:translateX(20px); transition:opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
-    pointer-events:none; display:flex; flex-direction:column; justify-content:center;
-  }
-  .testimonial.is-shown{opacity:1; transform:translateX(0); position:relative; pointer-events:auto;}
-  .testimonial p.quote{
-    font-family:'Fraunces',serif; font-size:1.25rem; color:var(--navy); line-height:1.5;
-    position:relative;
-  }
-  .testimonial p.quote::before{
-    content:"“"; font-size:3.5rem; color:var(--amber); opacity:0.35;
-    position:absolute; top:-18px; left:-12px; font-family:'Fraunces',serif; line-height:1;
-  }
-  .testimonial .attrib{margin-top:24px; display:flex; flex-direction:column; gap:3px;}
-  .testimonial .attrib .name{font-weight:600; font-size:0.96rem;}
-  .testimonial .attrib .role{font-size:0.88rem; color:var(--ink-soft);}
-  .testimonial-dots{
-    display:flex; gap:8px; justify-content:center; margin-top:28px;
-  }
-  .testimonial-dots button{
-    width:9px; height:9px; border-radius:50%; border:none; background:var(--line); cursor:pointer; padding:0;
-    transition:background 0.25s ease, width 0.3s var(--ease-out), border-radius 0.25s ease;
-  }
-  .testimonial-dots button.is-active{background:var(--amber); width:26px; border-radius:5px;}
-
-  /* ---------- estimator ---------- */
+  /* ---------- estimate ---------- */
   .estimator{
-    display:grid; grid-template-columns:1.3fr 1fr; gap:0;
-    border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fff;
-    box-shadow:0 16px 48px -28px rgba(27,42,58,0.15);
+    display:grid; grid-template-columns:1.25fr 1fr; gap:0;
+    border:1px solid var(--line); border-radius:18px; overflow:hidden;
+    background:var(--surface);
   }
-  .estimator-controls{padding:40px 40px;}
-  .estimator-field{margin-bottom:30px;}
+  .estimator-controls{padding:32px;}
+  .estimator-field{margin-bottom:26px;}
   .estimator-field:last-child{margin-bottom:0;}
   .estimator-label{
-    display:block; font-weight:600; color:var(--navy); font-size:0.96rem; margin-bottom:14px;
+    display:block; font-weight:600; font-size:0.92rem; margin-bottom:12px;
   }
-  .tier-radios{display:flex; gap:10px; flex-wrap:wrap;}
+  .tier-radios{display:flex; gap:8px; flex-wrap:wrap;}
   .tier-radios input{position:absolute; opacity:0; pointer-events:none;}
   .tier-radios label{
-    border:1.5px solid var(--line); border-radius:var(--radius); padding:11px 18px;
-    font-size:0.9rem; cursor:pointer; transition:border-color 0.25s ease, background 0.25s ease, transform 0.2s var(--ease-spring), color 0.2s ease;
-    color:var(--ink-soft); font-weight:500;
+    border:1.5px solid var(--line); border-radius:100px; padding:10px 16px;
+    font-size:0.88rem; cursor:pointer; color:var(--muted); font-weight:500;
+    transition:0.2s;
   }
-  .tier-radios label:hover{border-color:rgba(217,142,62,0.45); color:var(--navy);}
+  .tier-radios label:hover{border-color:rgba(0,232,192,0.4); color:var(--text);}
   .tier-radios input:checked + label{
-    border-color:var(--amber); background:rgba(217,142,62,0.12); color:var(--navy); font-weight:600;
-    transform:scale(1.03);
+    border-color:var(--accent); background:var(--accent-dim); color:var(--accent); font-weight:600;
   }
-  .addon-list{display:flex; flex-direction:column; gap:11px;}
+  .addon-list{display:flex; flex-direction:column; gap:8px;}
   .addon-row{
     display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:14px 16px; border:1.5px solid var(--line); border-radius:var(--radius); cursor:pointer;
-    transition:border-color 0.25s ease, background 0.25s ease, transform 0.2s var(--ease-spring);
+    padding:12px 14px; border:1.5px solid var(--line); border-radius:10px; cursor:pointer;
+    transition:0.2s;
   }
-  .addon-row:hover{border-color:rgba(61,107,102,0.4); transform:translateX(3px);}
+  .addon-row:hover{border-color:rgba(0,232,192,0.3);}
   .addon-row:has(input:checked){
-    border-color:var(--teal); background:rgba(61,107,102,0.07);
+    border-color:var(--accent); background:var(--accent-dim);
   }
-  .addon-row input{accent-color:var(--teal); width:18px; height:18px; flex-shrink:0;}
-  .addon-name{font-size:0.93rem; color:var(--ink); font-weight:500; flex:1;}
-  .addon-price{font-size:0.86rem; color:var(--ink-soft); font-family:'Fraunces',serif;}
+  .addon-row input{accent-color:var(--accent); width:17px; height:17px;}
+  .addon-name{font-size:0.9rem; font-weight:500; flex:1;}
+  .addon-price{font-size:0.85rem; color:var(--muted); font-family:'Syne',sans-serif;}
   .estimator-summary{
-    background:var(--navy); color:var(--paper); padding:40px 40px; display:flex; flex-direction:column;
+    background:var(--surface-2); padding:32px; display:flex; flex-direction:column;
+    border-left:1px solid var(--line);
     position:relative; overflow:hidden;
   }
   .estimator-summary::before{
-    content:""; position:absolute; bottom:-30%; right:-20%; width:70%; height:70%;
-    background:radial-gradient(circle, rgba(217,142,62,0.18) 0%, transparent 65%);
+    content:""; position:absolute; bottom:-20%; right:-15%; width:60%; height:60%;
+    background:radial-gradient(circle, rgba(0,232,192,0.15), transparent 65%);
     pointer-events:none;
   }
-  .estimator-summary .label{font-size:0.86rem; color:rgba(247,244,238,0.6); margin-bottom:8px; letter-spacing:0.03em;}
+  .estimator-summary .label{font-size:0.82rem; color:var(--muted); margin-bottom:6px; letter-spacing:0.04em;}
   .estimator-total{
-    font-family:'Fraunces',serif; font-size:2.6rem; font-weight:500; color:var(--paper);
-    transition:color 0.3s ease, transform 0.35s var(--ease-spring);
-    letter-spacing:-0.02em;
+    font-family:'Syne',sans-serif; font-size:2.5rem; font-weight:800;
+    transition:color 0.3s, transform 0.3s var(--spring);
   }
-  .estimator-total.just-updated{color:var(--amber-bright); transform:scale(1.04);}
-  .estimator-note{font-size:0.86rem; color:rgba(247,244,238,0.55); margin-top:10px;}
+  .estimator-total.flash{color:var(--accent); transform:scale(1.04);}
+  .estimator-note{font-size:0.84rem; color:var(--muted); margin-top:8px;}
   .estimator-breakdown{
-    margin-top:28px; padding-top:24px; border-top:1px solid var(--paper-line);
-    display:flex; flex-direction:column; gap:11px; flex:1;
+    margin-top:24px; padding-top:20px; border-top:1px solid var(--line);
+    display:flex; flex-direction:column; gap:8px; flex:1;
   }
   .estimator-breakdown .row{
-    display:flex; justify-content:space-between; font-size:0.88rem; color:rgba(247,244,238,0.8);
+    display:flex; justify-content:space-between; font-size:0.86rem; color:var(--muted);
   }
-  .estimator-summary .btn-primary{margin-top:28px; text-align:center; justify-content:center;}
+  .estimator-summary .btn{margin-top:24px; justify-content:center;}
 
-  /* ---------- faq ---------- */
-  .faq{
-    display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px;
+  /* ---------- process ---------- */
+  .steps{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
   }
-  .faq-list{display:flex; flex-direction:column;}
-  .faq-item{border-bottom:1px solid var(--line); padding:22px 0;}
-  .faq-item summary{
-    cursor:pointer; font-weight:600; color:var(--navy); font-size:1.04rem;
-    list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px;
-    transition:color 0.2s ease;
+  .step{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:14px; padding:24px 20px;
+    transition:transform 0.3s var(--ease), border-color 0.3s;
   }
-  .faq-item summary:hover{color:var(--amber);}
-  .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item summary::after{
-    content:"+"; font-family:'Fraunces',serif; font-size:1.4rem; color:var(--amber); flex-shrink:0;
-    transition:transform 0.3s var(--ease-out);
+  .step:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,232,192,0.3);
   }
-  .faq-item[open] summary::after{transform:rotate(45deg);}
-  .faq-item p{margin-top:14px; color:var(--ink-soft); font-size:0.96rem; max-width:60ch;}
+  .step-num{
+    font-family:'Syne',sans-serif; font-size:0.85rem; font-weight:700;
+    color:var(--accent); margin-bottom:12px; display:block;
+  }
+  .step h3{font-size:1.1rem; margin-bottom:8px;}
+  .step p{color:var(--muted); font-size:0.9rem;}
 
   /* ---------- contact ---------- */
-  .contact-form{
-    background:#fff; border-radius:16px; padding:48px 52px; display:grid;
-    grid-template-columns:1fr 1fr; gap:20px 26px; position:relative;
-    border:1px solid var(--line);
-    box-shadow:0 20px 56px -28px rgba(27,42,58,0.14);
+  .contact-grid{
+    display:grid; grid-template-columns:1fr 1.1fr; gap:40px; align-items:start;
   }
-  .form-field{display:flex; flex-direction:column; gap:8px;}
+  .contact-side h2{font-size:1.6rem; margin-bottom:12px;}
+  .contact-side p{color:var(--muted); margin-bottom:24px;}
+  .contact-links{display:flex; flex-direction:column; gap:12px;}
+  .contact-links a{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 16px; background:var(--surface); border:1px solid var(--line);
+    border-radius:12px; font-weight:500; transition:0.2s;
+  }
+  .contact-links a:hover{border-color:var(--accent); color:var(--accent);}
+  .contact-links .icon{
+    width:36px; height:36px; border-radius:10px;
+    background:var(--accent-dim); color:var(--accent);
+    display:grid; place-items:center; font-size:1rem;
+  }
+  .faq-mini{margin-top:32px;}
+  .faq-mini h3{font-size:1rem; margin-bottom:14px; color:var(--muted); font-weight:600;}
+  .faq-item{border-bottom:1px solid var(--line); padding:14px 0;}
+  .faq-item summary{
+    cursor:pointer; font-weight:600; font-size:0.95rem;
+    list-style:none; display:flex; justify-content:space-between; gap:12px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+"; color:var(--accent); font-size:1.2rem;}
+  .faq-item[open] summary::after{content:"–";}
+  .faq-item p{margin-top:10px; color:var(--muted); font-size:0.9rem;}
+
+  .contact-form{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:18px; padding:32px; display:grid; gap:16px;
+  }
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .form-field{display:flex; flex-direction:column; gap:6px;}
   .form-field.full{grid-column:1/-1;}
-  .form-field label{font-size:0.88rem; font-weight:600; color:var(--navy);}
+  .form-field label{font-size:0.84rem; font-weight:600; color:var(--muted);}
   .form-field input, .form-field select, .form-field textarea{
-    border:1.5px solid var(--line); border-radius:var(--radius); padding:13px 15px;
-    font-family:'Inter',sans-serif; font-size:0.95rem; color:var(--ink); background:var(--paper);
-    transition:border-color 0.25s ease, box-shadow 0.25s ease;
+    background:var(--bg); border:1.5px solid var(--line); border-radius:10px;
+    padding:12px 14px; color:var(--text); font-family:inherit; font-size:0.95rem;
+    transition:border-color 0.2s, box-shadow 0.2s;
   }
   .form-field input:focus, .form-field select:focus, .form-field textarea:focus{
-    outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(61,107,102,0.15);
+    outline:none; border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(0,232,192,0.15);
   }
-  .form-field textarea{resize:vertical; min-height:100px;}
-  .form-error{font-size:0.8rem; color:#B5462F; min-height:1em;}
-  .form-submit{
-    grid-column:1/-1; display:flex; align-items:center; gap:16px; margin-top:8px; flex-wrap:wrap;
-  }
-  .form-submit .btn-primary{border:none; cursor:pointer; font-family:inherit;}
-  .form-status{font-size:0.88rem; color:var(--ink-soft);}
+  .form-field textarea{min-height:100px; resize:vertical;}
+  .form-error{font-size:0.78rem; color:var(--accent-hot); min-height:1em;}
   .form-success{
-    grid-column:1/-1; display:none; align-items:center; gap:14px; padding:18px 20px;
-    background:rgba(61,107,102,0.08); border:1px solid var(--teal); border-radius:var(--radius);
+    display:none; align-items:center; gap:12px; padding:14px 16px;
+    background:var(--accent-dim); border:1px solid rgba(0,232,192,0.3);
+    border-radius:10px; font-size:0.92rem;
   }
   .form-success.is-visible{display:flex;}
   .form-success .check{
-    width:28px; height:28px; border-radius:50%; background:var(--teal); color:#fff; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center; font-size:0.95rem;
+    width:24px; height:24px; border-radius:50%; background:var(--accent);
+    color:#04120e; display:grid; place-items:center; font-weight:700; flex-shrink:0;
   }
-
-  /* ---------- final cta strip ---------- */
-  .final-cta-wrap{padding:0 32px 100px;}
-  .final-cta{
-    background:linear-gradient(135deg, var(--teal) 0%, #2d5551 100%);
-    color:var(--paper); border-radius:18px;
-    padding:64px 56px; display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap;
-    max-width:var(--maxw); margin:0 auto;
-    position:relative; overflow:hidden;
-    box-shadow:0 24px 56px -20px rgba(61,107,102,0.45);
-  }
-  .final-cta::before{
-    content:""; position:absolute; top:-40%; right:-10%; width:45%; height:120%;
-    background:radial-gradient(circle, rgba(247,244,238,0.12) 0%, transparent 60%);
-    pointer-events:none;
-  }
-  .final-cta h2{color:var(--paper); font-size:clamp(1.65rem,3vw,2.2rem); max-width:22ch; position:relative;}
-  .final-cta .btn-primary{white-space:nowrap; position:relative;}
+  .form-status{font-size:0.85rem; color:var(--muted);}
 
   footer{
-    padding:64px 32px 44px; border-top:1px solid var(--line);
-    background:rgba(255,255,255,0.5);
+    border-top:1px solid var(--line);
+    padding:28px; text-align:center;
+    color:var(--muted); font-size:0.85rem;
+    position:relative; z-index:1;
   }
-  .footer-grid{
-    display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:36px;
-  }
-  .footer-grid h4{font-size:0.9rem; color:var(--navy); margin-bottom:16px; font-weight:600;}
-  .footer-grid ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px;}
-  .footer-grid a{font-size:0.9rem; color:var(--ink-soft); text-decoration:none; transition:color 0.2s ease;}
-  .footer-grid a:hover{color:var(--navy);}
-  .footer-brand p{color:var(--ink-soft); font-size:0.92rem; max-width:34ch; margin-top:14px; line-height:1.55;}
-  .footer-bottom{
-    margin-top:52px; padding-top:26px; border-top:1px solid var(--line);
-    display:flex; justify-content:space-between; color:var(--ink-soft); font-size:0.86rem; flex-wrap:wrap; gap:12px;
-  }
+  footer a:hover{color:var(--accent);}
 
-  /* ---------- responsive ---------- */
-  @media (max-width:960px){
-    .hero{grid-template-columns:1fr; padding-top:56px; min-height:auto; gap:40px;}
-    .hero-figure{order:-1; width:100%; max-width:400px; margin:0 auto;}
+  /* responsive */
+  @media (max-width:900px){
+    .home-hero{grid-template-columns:1fr; gap:36px; min-height:auto;}
+    .hero-visual{max-width:360px; margin:0 auto; order:-1;}
     .tiers{grid-template-columns:1fr;}
-    .steps{grid-template-columns:1fr 1fr; row-gap:28px;}
-    .step{border-right:none; border-bottom:1px solid var(--paper-line); padding-bottom:28px;}
-    .included-grid{grid-template-columns:1fr 1fr;}
-    .faq{grid-template-columns:1fr;}
-    .footer-grid{grid-template-columns:1fr 1fr;}
+    .steps{grid-template-columns:1fr 1fr;}
     .estimator{grid-template-columns:1fr;}
-    .final-cta{padding:48px 36px;}
+    .estimator-summary{border-left:none; border-top:1px solid var(--line);}
+    .contact-grid{grid-template-columns:1fr;}
   }
   @media (max-width:640px){
-    .nav-links, .nav-cta{display:none;}
+    .nav-tabs, .nav-cta{display:none;}
     .nav-toggle{display:block;}
-    .included-grid{grid-template-columns:1fr;}
-    .footer-grid{grid-template-columns:1fr;}
-    section{padding:72px 20px;}
-    .hero{padding:36px 20px 56px;}
-    .estimator-controls, .estimator-summary{padding:28px 24px;}
-    .contact-form{grid-template-columns:1fr; padding:32px 24px;}
-    .final-cta-wrap{padding:0 20px 72px;}
-    .testimonial{padding:32px 28px;}
-    .cursor-glow{display:none;}
+    .mobile-menu{display:block;}
+    .steps{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+    .page{padding:32px 0 48px;}
+    .trust-row{gap:20px; font-size:0.86rem;}
   }
 </style>
 </head>
 <body>
-
-<div class="scroll-progress" id="scrollProgress"></div>
-<div class="cursor-glow" id="cursorGlow"></div>
+<div class="bg-glow"></div>
 
 <header>
   <nav class="nav">
-    <a href="#top" class="brand">
-      <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L8 9H16L12 2Z" fill="#D98E3E"/>
-        <path d="M9 9H15L16.5 21H7.5L9 9Z" fill="#1B2A3A"/>
-        <rect x="7" y="16" width="10" height="2" fill="#F7F4EE"/>
-      </svg>
-      Lighthouse Web Co.
+    <a href="#" class="brand" data-page="home">
+      <span class="brand-mark">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 1L3 9h4v6l5-8H8V1z" fill="#04120e"/></svg>
+      </span>
+      Volt
     </a>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#estimate">Estimate</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#faq">FAQ</a></li>
+    <ul class="nav-tabs" id="navTabs">
+      <li><button type="button" data-page="home" class="is-active">Home</button></li>
+      <li><button type="button" data-page="services">Services</button></li>
+      <li><button type="button" data-page="estimate">Estimate</button></li>
+      <li><button type="button" data-page="process">Process</button></li>
+      <li><button type="button" data-page="contact">Contact</button></li>
     </ul>
-    <a href="#contact" class="nav-cta">Get a quote</a>
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle menu">
+    <a href="#" class="nav-cta" data-page="contact">Get a quote</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-label="Menu">
       <span></span>
     </button>
   </nav>
   <div class="mobile-menu" id="mobileMenu">
     <ul>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#estimate">Estimate</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#contact" class="nav-cta">Get a quote</a></li>
+      <li><button type="button" data-page="home" class="is-active">Home</button></li>
+      <li><button type="button" data-page="services">Services</button></li>
+      <li><button type="button" data-page="estimate">Estimate</button></li>
+      <li><button type="button" data-page="process">Process</button></li>
+      <li><button type="button" data-page="contact">Contact</button></li>
     </ul>
   </div>
 </header>
 
-<main id="top">
-
-  <section class="hero" id="hero">
-    <div class="hero-copy">
-      <div class="hero-badge"><span class="dot"></span> Now booking for Q2</div>
-      <h1>
-        <span class="line"><span>Websites that</span></span>
-        <span class="line"><span>earn their keep,</span></span>
-        <span class="line"><span>not just their design.</span></span>
-      </h1>
-      <p class="lede">We plan, design, and build sites for small and growing businesses — the kind that load fast, rank on Google, and turn visitors into customers. No templates dressed up as custom work.</p>
-      <div class="cta-row">
-        <a href="#contact" class="btn-primary">Start your project →</a>
-        <a href="#estimate" class="btn-ghost">Get a live estimate</a>
-      </div>
-    </div>
-    <div class="hero-figure" id="heroFigure">
-      <div class="grid-dots"></div>
-      <div class="float-orbs">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-      </div>
-      <div class="beam-wrap" id="beamWrap">
-        <div class="beam"></div>
-      </div>
-      <div class="hero-glow"></div>
-      <svg class="lighthouse-svg" viewBox="0 0 200 260" fill="none">
-        <rect x="70" y="60" width="60" height="180" fill="#0F1822"/>
-        <path d="M100 20L70 60H130L100 20Z" fill="#D98E3E"/>
-        <rect x="82" y="80" width="36" height="22" rx="2" fill="#F7F4EE" fill-opacity="0.92"/>
-        <rect x="70" y="230" width="60" height="10" fill="#0F1822"/>
-        <rect x="55" y="240" width="90" height="12" fill="#101c28"/>
-        <!-- subtle window glow -->
-        <rect x="86" y="84" width="28" height="14" rx="1" fill="#D98E3E" fill-opacity="0.35"/>
-      </svg>
-    </div>
-  </section>
-
-  <div class="trust">
+<main>
+  <!-- HOME -->
+  <section class="page is-active" id="page-home">
     <div class="wrap">
-      <div class="trust-item">
-        <span class="icon">✦</span>
-        <span><strong class="counter" data-target="40" data-suffix="+">0</strong> businesses launched</span>
+      <div class="home-hero">
+        <div>
+          <div class="badge"><span class="dot"></span> Booking open · Q2</div>
+          <h1>Sites that <em>earn</em> their place.</h1>
+          <p class="lede">We build fast, focused websites for growing businesses — designed to convert, not just look pretty.</p>
+          <div class="cta-row">
+            <button type="button" class="btn btn-primary" data-page="contact">Start a project →</button>
+            <button type="button" class="btn btn-ghost" data-page="estimate">Live estimate</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="grid"></div>
+          <div class="hero-orb a"></div>
+          <div class="hero-orb b"></div>
+          <div class="hero-orb c"></div>
+          <div class="hero-center"><span>V</span></div>
+        </div>
       </div>
-      <div class="trust-item">
-        <span class="icon">⏱</span>
-        <span><strong>2–4 week</strong> average turnaround</span>
-      </div>
-      <div class="trust-item">
-        <span class="icon">★</span>
+      <div class="trust-row">
+        <span><strong class="counter" data-target="40" data-suffix="+">0</strong> sites launched</span>
+        <span><strong>2–4 wk</strong> typical delivery</span>
         <span><strong class="counter" data-target="98" data-suffix="%">0</strong> client satisfaction</span>
       </div>
     </div>
-  </div>
+  </section>
 
-  <section id="services">
-    <div class="section-head">
-      <h2>Three ways to get online, done properly</h2>
-      <p>Pick the level of build that matches where your business is right now. Every tier includes mobile-friendly design, basic SEO setup, and a working handover — nothing is left half-finished.</p>
-    </div>
-    <div class="tiers">
-      <div class="tier reveal">
-        <span class="tier-label">Entry</span>
-        <h3>Starter Site</h3>
-        <p class="tier-price">R8,500 <span>/ one-time</span></p>
-        <p>For a solo business or new venture that needs a credible presence fast.</p>
-        <ul>
-          <li>Up to 5 pages</li>
-          <li>Mobile-friendly design</li>
-          <li>Contact form &amp; map</li>
-          <li>2 rounds of revisions</li>
-          <li>2-week turnaround</li>
-        </ul>
-        <a href="#contact" class="btn-outline">Choose Starter</a>
+  <!-- SERVICES -->
+  <section class="page" id="page-services">
+    <div class="wrap">
+      <div class="page-head">
+        <h1>Pick your build</h1>
+        <p>Three clear tiers. Every one includes mobile design, basic SEO, and a proper handover.</p>
       </div>
-      <div class="tier featured reveal">
-        <span class="tier-label">Most popular</span>
-        <h3>Business Site</h3>
-        <p class="tier-price">R18,900 <span>/ one-time</span></p>
-        <p>Our most common build — for a business ready to sell and be found online.</p>
-        <ul>
-          <li>Up to 12 pages</li>
-          <li>Custom design, not a template</li>
-          <li>Booking or enquiry system</li>
-          <li>On-page SEO for 10 keywords</li>
-          <li>Basic analytics dashboard</li>
-          <li>4-week turnaround</li>
-        </ul>
-        <a href="#contact" class="btn-outline">Choose Business</a>
-      </div>
-      <div class="tier reveal">
-        <span class="tier-label">Full build</span>
-        <h3>Custom Build</h3>
-        <p class="tier-price">From R35,000 <span>/ project</span></p>
-        <p>For stores, booking platforms, or anything with real product logic behind it.</p>
-        <ul>
-          <li>Unlimited pages</li>
-          <li>Online store or portal</li>
-          <li>Custom integrations (CRM, payments)</li>
-          <li>Content migration</li>
-          <li>Dedicated project lead</li>
-        </ul>
-        <a href="#contact" class="btn-outline">Talk about scope</a>
+      <div class="tiers">
+        <div class="tier">
+          <span class="tier-label">Entry</span>
+          <h3>Starter</h3>
+          <p class="tier-price">R8,500 <span>/ once</span></p>
+          <p>Credible presence, fast. Ideal for solo operators and new ventures.</p>
+          <ul>
+            <li>Up to 5 pages</li>
+            <li>Mobile-first design</li>
+            <li>Contact form & map</li>
+            <li>2 revision rounds</li>
+            <li>2-week turnaround</li>
+          </ul>
+          <button type="button" class="btn btn-outline" data-page="contact" data-tier="Starter Site">Choose Starter</button>
+        </div>
+        <div class="tier featured">
+          <span class="tier-label">Most popular</span>
+          <h3>Business</h3>
+          <p class="tier-price">R18,900 <span>/ once</span></p>
+          <p>Built to sell and get found. Our most common project.</p>
+          <ul>
+            <li>Up to 12 pages</li>
+            <li>Custom design</li>
+            <li>Booking / enquiry system</li>
+            <li>SEO for 10 keywords</li>
+            <li>Analytics dashboard</li>
+            <li>4-week turnaround</li>
+          </ul>
+          <button type="button" class="btn btn-outline" data-page="contact" data-tier="Business Site">Choose Business</button>
+        </div>
+        <div class="tier">
+          <span class="tier-label">Full scope</span>
+          <h3>Custom</h3>
+          <p class="tier-price">From R35k <span>/ project</span></p>
+          <p>Stores, portals, or anything with real product logic.</p>
+          <ul>
+            <li>Unlimited pages</li>
+            <li>Store or client portal</li>
+            <li>CRM / payment integrations</li>
+            <li>Content migration</li>
+            <li>Dedicated project lead</li>
+          </ul>
+          <button type="button" class="btn btn-outline" data-page="contact" data-tier="Custom Build">Talk scope</button>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="estimate">
-    <div class="section-head">
-      <h2>Get a live estimate</h2>
-      <p>Pick a starting tier and any add-ons — the price updates as you go. This is a starting point for a conversation, not a final quote.</p>
-    </div>
-    <div class="estimator reveal">
-      <div class="estimator-controls">
-        <div class="estimator-field">
-          <span class="estimator-label">Which tier fits?</span>
-          <div class="tier-radios" id="tierRadios">
-            <input type="radio" name="tier" id="tierStarter" value="8500" data-name="Starter Site" checked>
-            <label for="tierStarter">Starter — R8,500</label>
-            <input type="radio" name="tier" id="tierBusiness" value="18900" data-name="Business Site">
-            <label for="tierBusiness">Business — R18,900</label>
-            <input type="radio" name="tier" id="tierCustom" value="35000" data-name="Custom Build">
-            <label for="tierCustom">Custom — from R35,000</label>
+  <!-- ESTIMATE -->
+  <section class="page" id="page-estimate">
+    <div class="wrap">
+      <div class="page-head">
+        <h1>Live estimate</h1>
+        <p>Select a tier and add-ons. Numbers update instantly — a starting point, not a final quote.</p>
+      </div>
+      <div class="estimator">
+        <div class="estimator-controls">
+          <div class="estimator-field">
+            <span class="estimator-label">Tier</span>
+            <div class="tier-radios" id="tierRadios">
+              <input type="radio" name="tier" id="t1" value="8500" data-name="Starter" checked>
+              <label for="t1">Starter · R8,500</label>
+              <input type="radio" name="tier" id="t2" value="18900" data-name="Business">
+              <label for="t2">Business · R18,900</label>
+              <input type="radio" name="tier" id="t3" value="35000" data-name="Custom">
+              <label for="t3">Custom · from R35k</label>
+            </div>
+          </div>
+          <div class="estimator-field">
+            <span class="estimator-label">Add-ons</span>
+            <div class="addon-list" id="addonList">
+              <label class="addon-row">
+                <span class="addon-name">Online store / payments</span>
+                <span class="addon-price">+ R6,500</span>
+                <input type="checkbox" value="6500" data-name="Online store">
+              </label>
+              <label class="addon-row">
+                <span class="addon-name">Copywriting (all pages)</span>
+                <span class="addon-price">+ R3,200</span>
+                <input type="checkbox" value="3200" data-name="Copywriting">
+              </label>
+              <label class="addon-row">
+                <span class="addon-name">Logo & brand basics</span>
+                <span class="addon-price">+ R2,800</span>
+                <input type="checkbox" value="2800" data-name="Logo & brand">
+              </label>
+              <label class="addon-row">
+                <span class="addon-name">Care plan (year 1)</span>
+                <span class="addon-price">+ R4,800</span>
+                <input type="checkbox" value="4800" data-name="Care plan">
+              </label>
+            </div>
           </div>
         </div>
-        <div class="estimator-field">
-          <span class="estimator-label">Add-ons</span>
-          <div class="addon-list" id="addonList">
-            <label class="addon-row">
-              <span class="addon-name">Online store / payments</span>
-              <span class="addon-price">+ R6,500</span>
-              <input type="checkbox" value="6500" data-name="Online store / payments">
-            </label>
-            <label class="addon-row">
-              <span class="addon-name">Copywriting for all pages</span>
-              <span class="addon-price">+ R3,200</span>
-              <input type="checkbox" value="3200" data-name="Copywriting">
-            </label>
-            <label class="addon-row">
-              <span class="addon-name">Logo &amp; brand basics</span>
-              <span class="addon-price">+ R2,800</span>
-              <input type="checkbox" value="2800" data-name="Logo & brand basics">
-            </label>
-            <label class="addon-row">
-              <span class="addon-name">Monthly care plan (first year)</span>
-              <span class="addon-price">+ R4,800</span>
-              <input type="checkbox" value="4800" data-name="Monthly care plan">
-            </label>
+        <div class="estimator-summary">
+          <span class="label">Estimated total</span>
+          <span class="estimator-total" id="estimatorTotal">R8,500</span>
+          <p class="estimator-note">Build cost only · hosting & domain separate</p>
+          <div class="estimator-breakdown" id="estimatorBreakdown">
+            <div class="row"><span>Starter</span><span>R8,500</span></div>
+          </div>
+          <button type="button" class="btn btn-primary" id="estimatorCta" data-page="contact">Send this estimate →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="page" id="page-process">
+    <div class="wrap">
+      <div class="page-head">
+        <h1>How it runs</h1>
+        <p>Four stages. Clear checkpoints. You always know what’s next and what’s needed from you.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Discover</h3>
+          <p>Goals, customers, and what “done” looks like — before any design starts.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>Design</h3>
+          <p>Homepage + one inner page first. You react before we build the rest.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>Build</h3>
+          <p>Staging link as pages come online. You click through in real time.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <h3>Launch</h3>
+          <p>DNS, hosting, walkthrough, and a plain-English handover guide.</p>
+        </div>
+      </div>
+      <div style="margin-top:40px; text-align:center;">
+        <button type="button" class="btn btn-primary" data-page="contact">Ready to start →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page" id="page-contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="contact-side">
+          <h2>Tell us about the project</h2>
+          <p>Reply within one working day. Or reach out directly.</p>
+          <div class="contact-links">
+            <a href="mailto:hello@voltstudio.co">
+              <span class="icon">✉</span>
+              hello@voltstudio.co
+            </a>
+            <a href="tel:+27736947042">
+              <span class="icon">☎</span>
+              +27 73 694 7042
+            </a>
+          </div>
+          <div class="faq-mini">
+            <h3>Quick answers</h3>
+            <details class="faq-item">
+              <summary>How long does it take?</summary>
+              <p>Starter ~2 weeks, Business ~4 weeks. Custom depends on scope — we lock a date after Discover.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Do I own the site?</summary>
+              <p>Yes. Hosting and domain in your name, full files and admin at handover.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Changes after launch?</summary>
+              <p>30 days of fixes included. Then a simple care plan, or update content yourself.</p>
+            </details>
           </div>
         </div>
-      </div>
-      <div class="estimator-summary">
-        <span class="label">Estimated total</span>
-        <span class="estimator-total" id="estimatorTotal">R8,500</span>
-        <p class="estimator-note">One-time build cost, excludes hosting &amp; domain fees.</p>
-        <div class="estimator-breakdown" id="estimatorBreakdown">
-          <div class="row"><span>Starter Site</span><span>R8,500</span></div>
-        </div>
-        <a href="#contact" class="btn-primary" id="estimatorCta">Send this estimate →</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="process" class="process-alt">
-    <div class="section-head">
-      <h2>How a project actually runs</h2>
-      <p>Four stages, always in this order. You'll know what's happening and what we need from you at each one.</p>
-    </div>
-    <div class="steps">
-      <div class="step reveal" style="--i:0">
-        <span class="step-num">01</span>
-        <h3>Discover</h3>
-        <p>A working session to map your goals, your customers, and what "done" looks like — before any design starts.</p>
-      </div>
-      <div class="step reveal" style="--i:1">
-        <span class="step-num">02</span>
-        <h3>Design</h3>
-        <p>We build a full design of your homepage and one inner page first, so you can react before we build the rest.</p>
-      </div>
-      <div class="step reveal" style="--i:2">
-        <span class="step-num">03</span>
-        <h3>Build</h3>
-        <p>Development happens in the open — you get a staging link to click through as pages come together.</p>
-      </div>
-      <div class="step reveal" style="--i:3">
-        <span class="step-num">04</span>
-        <h3>Launch</h3>
-        <p>We handle DNS, hosting, and a final walkthrough, then hand over the keys — with a plain-English guide.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="testimonials">
-    <div class="section-head">
-      <h2>What clients say once the site is live</h2>
-    </div>
-    <div class="testimonial-grid" id="testimonialGrid" data-index="0">
-      <div class="testimonial is-shown">
-        <p class="quote">They pushed back on a couple of ideas I had — kindly, but clearly — and the site is better for it. Bookings went up within the first month.</p>
-        <div class="attrib">
-          <span class="name">Naledi M.</span>
-          <span class="role">Owner, Marabou Bistro</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p class="quote">I've paid for two websites before this one and never understood what I was getting. This time I saw the site take shape every week.</p>
-        <div class="attrib">
-          <span class="name">Grant H.</span>
-          <span class="role">Partner, Halden &amp; Co.</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p class="quote">The price estimate on their site matched the final invoice almost exactly. No surprises, which is rare in this industry.</p>
-        <div class="attrib">
-          <span class="name">Priya K.</span>
-          <span class="role">Founder, Foothill Outdoor Supply</span>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial-dots" id="testimonialDots"></div>
-  </section>
-
-  <section id="pricing">
-    <div class="section-head">
-      <h2>What's included, always</h2>
-      <p>Regardless of tier, these are non-negotiable parts of any project we take on.</p>
-    </div>
-    <div class="included-grid">
-      <div class="included-card reveal">
-        <div class="icon-wrap">⌂</div>
-        <h3>Hosting setup</h3>
-        <p>We configure hosting and domain connection — you own both accounts.</p>
-      </div>
-      <div class="included-card reveal">
-        <div class="icon-wrap">◎</div>
-        <h3>Basic SEO</h3>
-        <p>Page titles, meta descriptions, and sitemap submitted to Google.</p>
-      </div>
-      <div class="included-card reveal">
-        <div class="icon-wrap">☰</div>
-        <h3>Handover guide</h3>
-        <p>A short written guide so you can update text and images yourself.</p>
-      </div>
-      <div class="included-card reveal">
-        <div class="icon-wrap">✓</div>
-        <h3>30-day support</h3>
-        <p>Free fixes for anything that isn't working as agreed at launch.</p>
+        <form class="contact-form" id="contactForm" novalidate>
+          <input type="hidden" name="_subject" value="New enquiry — Volt">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="cf-name">Name</label>
+              <input type="text" id="cf-name" name="name" required autocomplete="name">
+              <span class="form-error" data-error-for="cf-name"></span>
+            </div>
+            <div class="form-field">
+              <label for="cf-email">Email</label>
+              <input type="email" id="cf-email" name="email" required autocomplete="email">
+              <span class="form-error" data-error-for="cf-email"></span>
+            </div>
+          </div>
+          <div class="form-field full">
+            <label for="cf-business">Business name</label>
+            <input type="text" id="cf-business" name="business" autocomplete="organization">
+          </div>
+          <div class="form-field full">
+            <label for="cf-tier">Looking for</label>
+            <select id="cf-tier" name="tier">
+              <option value="Starter Site">Starter Site</option>
+              <option value="Business Site">Business Site</option>
+              <option value="Custom Build">Custom Build</option>
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="cf-message">Project details</label>
+            <textarea id="cf-message" name="message" required></textarea>
+            <span class="form-error" data-error-for="cf-message"></span>
+          </div>
+          <div class="form-success" id="formSuccess">
+            <span class="check">✓</span>
+            <span id="formSuccessText">Got it — we’ll reply within one working day.</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+            <button type="submit" class="btn btn-primary">Send details →</button>
+            <span class="form-status" id="formStatus"></span>
+          </div>
+        </form>
       </div>
     </div>
   </section>
-
-  <section id="faq">
-    <div class="faq">
-      <div class="section-head" style="margin-bottom:0;">
-        <h2>Questions we get asked</h2>
-        <p>If yours isn't here, it's faster to just ask — see the contact details below.</p>
-      </div>
-      <div class="faq-list">
-        <details class="faq-item" open>
-          <summary>How long does a website actually take?</summary>
-          <p>Starter sites take about two weeks, Business sites about four, and Custom Builds depend on scope — we'll give you a real date after the Discover call, not before.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Do I own the website afterward?</summary>
-          <p>Yes. Hosting and domain accounts are set up in your name, and you receive full files and admin access at handover.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Can you work with a logo and branding we already have?</summary>
-          <p>Yes — we design around your existing brand rather than replacing it. If you don't have branding yet, we can scope that separately.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What if I need changes after launch?</summary>
-          <p>The first 30 days of fixes are included. After that, we offer a simple monthly care plan, or you can update content yourself using the handover guide.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="section-head">
-      <h2>Tell us about your business</h2>
-      <p>Fill this in and we'll reply within one working day — or email hello@lighthousewebco.com directly.</p>
-    </div>
-    <form class="contact-form reveal" id="contactForm" novalidate>
-      <input type="hidden" name="_subject" value="New project enquiry — Lighthouse Web Co.">
-      <div class="form-field">
-        <label for="cf-name">Your name</label>
-        <input type="text" id="cf-name" name="name" required autocomplete="name">
-        <span class="form-error" data-error-for="cf-name"></span>
-      </div>
-      <div class="form-field">
-        <label for="cf-email">Email</label>
-        <input type="email" id="cf-email" name="email" required autocomplete="email">
-        <span class="form-error" data-error-for="cf-email"></span>
-      </div>
-      <div class="form-field full">
-        <label for="cf-business">Business name</label>
-        <input type="text" id="cf-business" name="business" autocomplete="organization">
-        <span class="form-error" data-error-for="cf-business"></span>
-      </div>
-      <div class="form-field full">
-        <label for="cf-tier">What are you looking for?</label>
-        <select id="cf-tier" name="tier">
-          <option value="Starter Site">Starter Site</option>
-          <option value="Business Site">Business Site</option>
-          <option value="Custom Build">Custom Build</option>
-          <option value="Not sure yet">Not sure yet</option>
-        </select>
-      </div>
-      <div class="form-field full">
-        <label for="cf-message">Tell us a bit about the project</label>
-        <textarea id="cf-message" name="message" required></textarea>
-        <span class="form-error" data-error-for="cf-message"></span>
-      </div>
-      <div class="form-success" id="formSuccess">
-        <span class="check">✓</span>
-        <span id="formSuccessText">Thanks — we've received your message and will reply within one working day.</span>
-      </div>
-      <div class="form-submit">
-        <button type="submit" class="btn-primary">Send project details →</button>
-        <span class="form-status" id="formStatus"></span>
-      </div>
-    </form>
-  </section>
-
-  <div class="final-cta-wrap">
-    <div class="final-cta reveal">
-      <h2>Ready for a site that actually works for your business?</h2>
-      <a href="#contact" class="btn-primary">Let's talk →</a>
-    </div>
-  </div>
-
 </main>
 
 <footer>
-  <div class="wrap footer-grid">
-    <div class="footer-brand">
-      <a href="#top" class="brand" style="margin-bottom:0;">
-        <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L8 9H16L12 2Z" fill="#D98E3E"/>
-          <path d="M9 9H15L16.5 21H7.5L9 9Z" fill="#1B2A3A"/>
-          <rect x="7" y="16" width="10" height="2" fill="#F7F4EE"/>
-        </svg>
-        Lighthouse Web Co.
-      </a>
-      <p>Websites built for small and growing businesses — planned properly, built to last.</p>
-    </div>
-    <div>
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#services">Starter Site</a></li>
-        <li><a href="#services">Business Site</a></li>
-        <li><a href="#services">Custom Build</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Studio</h4>
-      <ul>
-        <li><a href="#process">Our process</a></li>
-        <li><a href="#estimate">Live estimate</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="mailto:hello@lighthousewebco.com">hello@lighthousewebco.com</a></li>
-        <li><a href="tel:+27736947042">+27 73 694 7042</a></li>
-        <li><a href="#contact">Request a quote</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="wrap footer-bottom">
-    <span>© 2026 Lighthouse Web Co.</span>
-    <span>Johannesburg, South Africa</span>
+  <div class="wrap">
+    © 2026 Volt · Johannesburg · <a href="mailto:hello@voltstudio.co">hello@voltstudio.co</a>
   </div>
 </footer>
 
@@ -1103,88 +817,55 @@
 (function(){
   "use strict";
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  /* ---- hero entrance ---- */
-  var hero = document.getElementById('hero');
-  if(hero){
-    requestAnimationFrame(function(){
-      setTimeout(function(){ hero.classList.add('is-ready'); }, 60);
-    });
-  }
+  /* ---- page navigation ---- */
+  function showPage(id){
+    var pages = document.querySelectorAll('.page');
+    pages.forEach(function(p){ p.classList.remove('is-active'); });
+    var target = document.getElementById('page-' + id);
+    if(target) target.classList.add('is-active');
 
-  /* ---- interactive light beam (mouse / pointer) ---- */
-  var beamWrap = document.getElementById('beamWrap');
-  var heroFigure = document.getElementById('heroFigure');
-  if(beamWrap && heroFigure && !reduceMotion){
-    var targetAngle = -18;
-    var currentAngle = -18;
-    var autoSweep = true;
-    var autoDir = 1;
-    var lastPointer = 0;
-
-    function updateBeam(){
-      if(autoSweep && Date.now() - lastPointer > 1800){
-        targetAngle += autoDir * 0.35;
-        if(targetAngle > 28){ targetAngle = 28; autoDir = -1; }
-        if(targetAngle < -28){ targetAngle = -28; autoDir = 1; }
+    document.querySelectorAll('[data-page]').forEach(function(el){
+      if(el.tagName === 'BUTTON' || (el.tagName === 'A' && el.classList.contains('nav-cta') === false && el.classList.contains('brand') === false)){
+        el.classList.toggle('is-active', el.getAttribute('data-page') === id);
       }
-      currentAngle += (targetAngle - currentAngle) * 0.08;
-      beamWrap.style.transform = 'rotate(' + currentAngle + 'deg)';
-      requestAnimationFrame(updateBeam);
-    }
-    requestAnimationFrame(updateBeam);
+    });
+    document.querySelectorAll('#navTabs button, #mobileMenu button').forEach(function(btn){
+      btn.classList.toggle('is-active', btn.getAttribute('data-page') === id);
+    });
 
-    function onPointer(e){
-      lastPointer = Date.now();
-      autoSweep = true;
-      var rect = heroFigure.getBoundingClientRect();
-      var cx = rect.left + rect.width * 0.5;
-      var cy = rect.top + rect.height * 0.42;
-      var x = (e.clientX !== undefined ? e.clientX : e.touches[0].clientX) - cx;
-      var y = (e.clientY !== undefined ? e.clientY : e.touches[0].clientY) - cy;
-      targetAngle = Math.atan2(y, x) * (180 / Math.PI);
-      // clamp so beam mostly sweeps across the scene
-      if(targetAngle > 55) targetAngle = 55;
-      if(targetAngle < -55) targetAngle = -55;
-    }
+    window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
+    history.replaceState(null, '', '#' + id);
 
-    if(!isTouch){
-      heroFigure.addEventListener('pointermove', onPointer, {passive:true});
-      heroFigure.addEventListener('pointerleave', function(){ lastPointer = Date.now() - 2000; });
-    } else {
-      heroFigure.addEventListener('touchmove', onPointer, {passive:true});
+    // close mobile menu
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('mobileMenu');
+    if(toggle && menu){
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('is-open');
     }
   }
 
-  /* ---- soft cursor glow (desktop only) ---- */
-  var glow = document.getElementById('cursorGlow');
-  if(glow && !isTouch && !reduceMotion){
-    document.body.classList.add('has-cursor');
-    var gx = 0, gy = 0, tx = 0, ty = 0;
-    window.addEventListener('pointermove', function(e){
-      tx = e.clientX; ty = e.clientY;
-    }, {passive:true});
-    function animGlow(){
-      gx += (tx - gx) * 0.12;
-      gy += (ty - gy) * 0.12;
-      glow.style.left = gx + 'px';
-      glow.style.top = gy + 'px';
-      requestAnimationFrame(animGlow);
-    }
-    requestAnimationFrame(animGlow);
-  }
+  document.querySelectorAll('[data-page]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      var id = el.getAttribute('data-page');
+      if(id) showPage(id);
 
-  /* ---- scroll progress ---- */
-  var progressBar = document.getElementById('scrollProgress');
-  function updateProgress(){
-    if(!progressBar) return;
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
-    progressBar.style.width = p + '%';
+      // prefill tier from services
+      var tier = el.getAttribute('data-tier');
+      if(tier){
+        var sel = document.getElementById('cf-tier');
+        if(sel) sel.value = tier;
+      }
+    });
+  });
+
+  // hash on load
+  var hash = (location.hash || '#home').slice(1);
+  if(['home','services','estimate','process','contact'].indexOf(hash) !== -1){
+    showPage(hash);
   }
-  document.addEventListener('scroll', updateProgress, {passive:true});
-  updateProgress();
 
   /* ---- mobile nav ---- */
   var navToggle = document.getElementById('navToggle');
@@ -1195,188 +876,92 @@
       navToggle.setAttribute('aria-expanded', String(!open));
       mobileMenu.classList.toggle('is-open', !open);
     });
-    mobileMenu.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        navToggle.setAttribute('aria-expanded', 'false');
-        mobileMenu.classList.remove('is-open');
-      });
+  }
+
+  /* ---- counters (home) ---- */
+  var counters = document.querySelectorAll('.counter');
+  var counted = false;
+  function runCounters(){
+    if(counted) return;
+    counted = true;
+    counters.forEach(function(el){
+      var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
+      if(reduceMotion){ el.textContent = target + suffix; return; }
+      var start = null, dur = 1100;
+      function step(ts){
+        if(!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(e * target) + suffix;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     });
   }
+  // run when home is visible
+  runCounters();
+  document.querySelectorAll('[data-page="home"]').forEach(function(el){
+    el.addEventListener('click', function(){ setTimeout(runCounters, 100); });
+  });
 
-  /* ---- header scroll ---- */
-  var header = document.querySelector('header');
-  var onScrollHeader = function(){
-    if(!header) return;
-    header.classList.toggle('is-scrolled', window.scrollY > 12);
-  };
-  document.addEventListener('scroll', onScrollHeader, {passive:true});
-  onScrollHeader();
-
-  /* ---- active nav ---- */
-  var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-  var sections = Array.prototype.map.call(navLinks, function(a){
-    return document.querySelector(a.getAttribute('href'));
-  }).filter(Boolean);
-
-  if('IntersectionObserver' in window && sections.length){
-    var navObserver = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          var id = '#' + entry.target.id;
-          navLinks.forEach(function(a){
-            a.classList.toggle('is-active', a.getAttribute('href') === id);
-          });
-        }
-      });
-    }, {rootMargin:'-42% 0px -50% 0px'});
-    sections.forEach(function(s){ navObserver.observe(s); });
-  }
-
-  /* ---- scroll reveal ---- */
-  var revealEls = document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window && !reduceMotion){
-    var revealObserver = new IntersectionObserver(function(entries, obs){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
-    revealEls.forEach(function(el){ revealObserver.observe(el); });
-  } else {
-    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
-  }
-
-  /* ---- counters ---- */
-  var counters = document.querySelectorAll('.counter');
-  function animateCounter(el){
-    var target = parseInt(el.getAttribute('data-target'), 10) || 0;
-    var suffix = el.getAttribute('data-suffix') || '';
-    if(reduceMotion){ el.textContent = target + suffix; return; }
-    var start = null;
-    var duration = 1200;
-    function step(ts){
-      if(!start) start = ts;
-      var progress = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.round(eased * target) + suffix;
-      if(progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  if('IntersectionObserver' in window && counters.length){
-    var counterObserver = new IntersectionObserver(function(entries, obs){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          animateCounter(entry.target);
-          obs.unobserve(entry.target);
-        }
-      });
-    }, {threshold:0.55});
-    counters.forEach(function(c){ counterObserver.observe(c); });
-  } else {
-    counters.forEach(animateCounter);
-  }
-
-  /* ---- price estimator ---- */
-  var tierRadios = document.querySelectorAll('#tierRadios input[type="radio"]');
-  var addonInputs = document.querySelectorAll('#addonList input[type="checkbox"]');
+  /* ---- estimator ---- */
+  var tierRadios = document.querySelectorAll('#tierRadios input');
+  var addonInputs = document.querySelectorAll('#addonList input');
   var totalEl = document.getElementById('estimatorTotal');
   var breakdownEl = document.getElementById('estimatorBreakdown');
-  var estimatorCta = document.getElementById('estimatorCta');
 
-  function formatRands(n){
-    return 'R' + n.toLocaleString('en-ZA');
-  }
+  function formatR(n){ return 'R' + n.toLocaleString('en-ZA'); }
 
-  function recalcEstimate(){
-    var checkedTier = document.querySelector('#tierRadios input:checked');
-    var tierValue = checkedTier ? parseInt(checkedTier.value, 10) : 0;
-    var tierName = checkedTier ? checkedTier.getAttribute('data-name') : '';
-    var rows = [{name:tierName, price:tierValue}];
-    var total = tierValue;
-
-    addonInputs.forEach(function(input){
-      if(input.checked){
-        var price = parseInt(input.value, 10) || 0;
-        total += price;
-        rows.push({name:input.getAttribute('data-name'), price:price});
+  function recalc(){
+    var tier = document.querySelector('#tierRadios input:checked');
+    var val = tier ? parseInt(tier.value, 10) : 0;
+    var name = tier ? tier.getAttribute('data-name') : '';
+    var rows = [{name: name, price: val}];
+    var total = val;
+    addonInputs.forEach(function(inp){
+      if(inp.checked){
+        var p = parseInt(inp.value, 10) || 0;
+        total += p;
+        rows.push({name: inp.getAttribute('data-name'), price: p});
       }
     });
-
     if(totalEl){
-      totalEl.textContent = formatRands(total);
-      totalEl.classList.remove('just-updated');
+      totalEl.textContent = formatR(total);
+      totalEl.classList.remove('flash');
       void totalEl.offsetWidth;
-      totalEl.classList.add('just-updated');
-      setTimeout(function(){ totalEl.classList.remove('just-updated'); }, 400);
+      totalEl.classList.add('flash');
+      setTimeout(function(){ totalEl.classList.remove('flash'); }, 350);
     }
     if(breakdownEl){
       breakdownEl.innerHTML = rows.map(function(r){
-        return '<div class="row"><span>' + r.name + '</span><span>' + formatRands(r.price) + '</span></div>';
+        return '<div class="row"><span>' + r.name + '</span><span>' + formatR(r.price) + '</span></div>';
       }).join('');
     }
-    if(estimatorCta){
-      estimatorCta.href = '#contact';
-    }
-    window.__lastEstimate = {tier: tierName, total: total, rows: rows};
+    window.__lastEstimate = {tier: name, total: total};
   }
+  tierRadios.forEach(function(r){ r.addEventListener('change', recalc); });
+  addonInputs.forEach(function(c){ c.addEventListener('change', recalc); });
+  recalc();
 
-  tierRadios.forEach(function(r){ r.addEventListener('change', recalcEstimate); });
-  addonInputs.forEach(function(c){ c.addEventListener('change', recalcEstimate); });
-  if(tierRadios.length) recalcEstimate();
-
-  if(estimatorCta){
-    estimatorCta.addEventListener('click', function(){
-      var msgField = document.getElementById('cf-message');
-      var tierField = document.getElementById('cf-tier');
+  var estCta = document.getElementById('estimatorCta');
+  if(estCta){
+    estCta.addEventListener('click', function(){
       var est = window.__lastEstimate;
-      if(est && msgField && !msgField.value){
-        msgField.value = 'I got an estimate of ' + formatRands(est.total) + ' (' + est.tier + ' plus add-ons) and would like to discuss.';
+      var msg = document.getElementById('cf-message');
+      var tierField = document.getElementById('cf-tier');
+      if(est && msg && !msg.value){
+        msg.value = 'I got an estimate of ' + formatR(est.total) + ' (' + est.tier + ' + add-ons) and would like to discuss.';
       }
       if(est && tierField){
-        tierField.value = est.tier;
+        var map = {Starter:'Starter Site', Business:'Business Site', Custom:'Custom Build'};
+        tierField.value = map[est.tier] || 'Not sure yet';
       }
     });
   }
 
-  /* ---- testimonial carousel ---- */
-  var testimonialGrid = document.getElementById('testimonialGrid');
-  var dotsWrap = document.getElementById('testimonialDots');
-  if(testimonialGrid && dotsWrap){
-    var slides = Array.prototype.slice.call(testimonialGrid.querySelectorAll('.testimonial'));
-    var current = 0;
-    var timer = null;
-
-    slides.forEach(function(_, i){
-      var dot = document.createElement('button');
-      dot.setAttribute('aria-label', 'Show testimonial ' + (i + 1));
-      if(i === 0) dot.classList.add('is-active');
-      dot.addEventListener('click', function(){ goTo(i); resetTimer(); });
-      dotsWrap.appendChild(dot);
-    });
-    var dots = Array.prototype.slice.call(dotsWrap.children);
-
-    function goTo(index){
-      slides[current].classList.remove('is-shown');
-      dots[current].classList.remove('is-active');
-      current = (index + slides.length) % slides.length;
-      slides[current].classList.add('is-shown');
-      dots[current].classList.add('is-active');
-    }
-    function resetTimer(){
-      if(timer) clearInterval(timer);
-      if(!reduceMotion){
-        timer = setInterval(function(){ goTo(current + 1); }, 6500);
-      }
-    }
-    resetTimer();
-  }
-
-  /* ---- contact form ---- */
-  var FORMSPREE_ENDPOINT = 'https://formspree.io/f/xyeypvan';
-
+  /* ---- form ---- */
+  var FORMSPREE = 'https://formspree.io/f/xyeypvan';
   var form = document.getElementById('contactForm');
   if(form){
     var successBox = document.getElementById('formSuccess');
@@ -1384,90 +969,60 @@
     var statusEl = document.getElementById('formStatus');
     var submitBtn = form.querySelector('button[type="submit"]');
 
-    function setError(fieldId, message){
-      var span = form.querySelector('[data-error-for="' + fieldId + '"]');
-      if(span) span.textContent = message || '';
+    function setErr(id, msg){
+      var s = form.querySelector('[data-error-for="' + id + '"]');
+      if(s) s.textContent = msg || '';
     }
-
     function validate(){
-      var valid = true;
+      var ok = true;
       var name = document.getElementById('cf-name');
       var email = document.getElementById('cf-email');
       var message = document.getElementById('cf-message');
-
-      setError('cf-name', ''); setError('cf-email', ''); setError('cf-business', ''); setError('cf-message', '');
-
-      if(!name.value.trim()){ setError('cf-name', 'Please add your name.'); valid = false; }
-      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailPattern.test(email.value.trim())){ setError('cf-email', 'Please add a valid email.'); valid = false; }
-      if(!message.value.trim()){ setError('cf-message', 'Tell us a little about the project.'); valid = false; }
-
-      return valid;
+      setErr('cf-name',''); setErr('cf-email',''); setErr('cf-message','');
+      if(!name.value.trim()){ setErr('cf-name','Please add your name.'); ok = false; }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){ setErr('cf-email','Valid email required.'); ok = false; }
+      if(!message.value.trim()){ setErr('cf-message','Tell us a bit about the project.'); ok = false; }
+      return ok;
     }
-
-    function fallbackToMailto(name, business, tier, message){
-      var subject = encodeURIComponent('Project enquiry: ' + (business || name));
-      var bodyLines = [
-        'Name: ' + name,
-        'Business: ' + (business || '—'),
-        'Interested in: ' + tier,
-        '',
-        message
-      ];
-      var body = encodeURIComponent(bodyLines.join('\n'));
-      window.location.href = 'mailto:hello@lighthousewebco.com?subject=' + subject + '&body=' + body;
+    function mailto(name, business, tier, message){
+      var sub = encodeURIComponent('Project enquiry: ' + (business || name));
+      var body = encodeURIComponent(['Name: '+name,'Business: '+(business||'—'),'Interested in: '+tier,'',message].join('\n'));
+      window.location.href = 'mailto:hello@voltstudio.co?subject='+sub+'&body='+body;
     }
 
     form.addEventListener('submit', function(e){
       e.preventDefault();
-      if(!validate()){
-        if(statusEl) statusEl.textContent = 'Please fix the highlighted fields.';
-        return;
-      }
-
+      if(!validate()){ if(statusEl) statusEl.textContent = 'Please fix the fields above.'; return; }
       var name = document.getElementById('cf-name').value.trim();
       var email = document.getElementById('cf-email').value.trim();
       var business = document.getElementById('cf-business').value.trim();
       var tier = document.getElementById('cf-tier').value;
       var message = document.getElementById('cf-message').value.trim();
 
-      var endpointReady = FORMSPREE_ENDPOINT.indexOf('YOUR_FORM_ID') === -1;
-
-      if(!endpointReady){
-        fallbackToMailto(name, business, tier, message);
-        if(successText) successText.textContent = "Thanks — your email app should have opened with everything filled in. Send it and we'll reply within one working day.";
-        if(successBox) successBox.classList.add('is-visible');
-        if(statusEl) statusEl.textContent = '';
-        form.reset();
-        return;
-      }
-
-      if(submitBtn){ submitBtn.disabled = true; }
+      if(submitBtn) submitBtn.disabled = true;
       if(statusEl) statusEl.textContent = 'Sending…';
 
-      fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
+      fetch(FORMSPREE, {
+        method:'POST',
+        headers:{'Accept':'application/json'},
         body: new FormData(form)
-      }).then(function(response){
-        if(response.ok){
-          if(successText) successText.textContent = "Thanks — we've received your message and will reply within one working day.";
+      }).then(function(res){
+        if(res.ok){
+          if(successText) successText.textContent = "Got it — we'll reply within one working day.";
           if(successBox) successBox.classList.add('is-visible');
           if(statusEl) statusEl.textContent = '';
           form.reset();
         } else {
-          if(statusEl) statusEl.textContent = 'Something went wrong — opening an email instead.';
-          fallbackToMailto(name, business, tier, message);
-          if(successText) successText.textContent = "Thanks — your email app should have opened with everything filled in. Send it and we'll reply within one working day.";
+          if(statusEl) statusEl.textContent = 'Opening email instead…';
+          mailto(name, business, tier, message);
           if(successBox) successBox.classList.add('is-visible');
         }
       }).catch(function(){
-        if(statusEl) statusEl.textContent = 'Connection issue — opening an email instead.';
-        fallbackToMailto(name, business, tier, message);
-        if(successText) successText.textContent = "Thanks — your email app should have opened with everything filled in. Send it and we'll reply within one working day.";
+        if(statusEl) statusEl.textContent = 'Opening email instead…';
+        mailto(name, business, tier, message);
         if(successBox) successBox.classList.add('is-visible');
       }).finally(function(){
-        if(submitBtn){ submitBtn.disabled = false; }
+        if(submitBtn) submitBtn.disabled = false;
       });
     });
   }
